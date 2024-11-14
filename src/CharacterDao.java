@@ -41,56 +41,32 @@ public class CharacterDao {
         return characters;
     }
 
-    /*
     public static void saveParticipants(ArrayList<Character> characters) throws IOException {
-        JSONArray participantsArray = new JSONArray();
-        JSONArray ticketsArray = new JSONArray();
+        JSONArray characterArray = new JSONArray();
 
         for (Character participant : characters) {
-            JSONObject participantObj = new JSONObject();
-            participantObj.put("name", participant.getName());
-            participantObj.put("birth", participant.getBirth());
-            participantObj.put("nationality", participant.getNationality());
-            participantObj.put("ticketId", participant.getTicketId());
-            participantObj.put("grade", participant.getGrade());
-            participantObj.put("field", participant.getField());
+            JSONObject characterObject = new JSONObject();
+            characterObject.put("name", participant.getName());
+            characterObject.put("weight", participant.getWeight());
+            characterObject.put("id", participant.getId());
 
-            participantsArray.add(participantObj);
 
-            if (participant.getTicket() != null) {
-                JSONObject ticketObj = new JSONObject();
-                Ticket ticket = participant.getTicket();
-                ticketObj.put("hour", ticket.getHour());
-                ticketObj.put("table", ticket.getTable());
-                ticketObj.put("drinks", ticket.getDrinks());
-
-                // the ticket should be stored in the tickets array at the same index as participant
-                ticketsArray.add(ticketObj);
-            } else {
-                // if no ticket, add a placeholder for index consistency
-                ticketsArray.add(false);
-            }
+            characterArray.add(characterObject);
         }
 
-        JSONObject participantsJsonObject = new JSONObject();
-        participantsJsonObject.put("participants", participantsArray);
+        FileWriter writerParticipants = new FileWriter("C:\\Documentos\\ingenieria informatica\\Segundo_carrera\\Programacion Orientada a Objetos\\javaProjects\\Practica-1-DPO\\Database\\characters.json");
 
-        FileWriter writerParticipants = new FileWriter("C:\\Documentos\\ingenieria informatica\\Segundo_carrera\\Programacion Orientada a Objetos\\javaProjects\\PartyGRASP\\src\\Database\\Sallefest.json");
-        FileWriter writerTickets = new FileWriter("C:\\Documentos\\ingenieria informatica\\Segundo_carrera\\Programacion Orientada a Objetos\\javaProjects\\PartyGRASP\\src\\Database\\Tickets.json");
-
-        writerParticipants.write(participantsJsonObject.toJSONString());
-        writerTickets.write(ticketsArray.toJSONString());
+        writerParticipants.write(JSONArray.toJSONString(characterArray));
 
         writerParticipants.flush();
-        writerTickets.flush();
         writerParticipants.close();
-        writerTickets.close();
     }
-    */
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         ArrayList<Character> characters = new ArrayList<>();
         characters = new CharacterDao().readUsers();
         System.out.println(characters);
+        saveParticipants(characters);
     }
 }

@@ -12,4 +12,16 @@ public class Character {
     public String toString() {
         return id + " " + name + " " + weight;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
 }
