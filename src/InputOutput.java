@@ -28,7 +28,7 @@ public class InputOutput {
         System.out.println("\t0) Back");
     }
 
-    public static int askInteger(String prompt){
+    public int askInteger(String prompt){
         int integer;
 
         try{
@@ -73,5 +73,4 @@ public class InputOutput {
     public void simulateCombatMenu(){
 
     }
-
 }
