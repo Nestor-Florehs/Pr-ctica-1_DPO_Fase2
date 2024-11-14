@@ -8,7 +8,7 @@ public class Controller {
     public void executeMainOption(OptionStartingMenu option) {
         switch (option) {
             case LIST_CHARACTERS -> listCharacters();
-            case MANAGE_TEAMS -> manageTeams();
+            case MANAGE_TEAMS -> runManageTeams();
             case LIST_ITEMS -> listItems();
             case SIMULATE_COMBAT -> simulateCombat();
             case EXIT -> System.out.println("Exit program");
@@ -18,20 +18,36 @@ public class Controller {
 
     public void executeManageTeams(OptionMangeTeam option) {
         switch (option) {
-            case CREATE_TEAM -> listCharacters();
-            case LIST_TEAMS -> manageTeams();
-            case DELETE_TEAM -> listItems();
-            case BACK -> simulateCombat();
+            case CREATE_TEAM -> createTeam();
+            case LIST_TEAMS -> listTeam();
+            case DELETE_TEAM -> deleteTeam();
             case ELSE -> System.out.println("Invalid option!!");
         }
+    }
+
+    private void createTeam() {
+        System.out.println("Create team");
+    }
+
+    private void listTeam() {
+        System.out.println("List team");
+    }
+
+    private void deleteTeam() {
+        System.out.println("Delete team");
     }
 
     private void listCharacters() {
         System.out.println("Lista de caracteres");
     }
 
-    private void manageTeams() {
-        System.out.println("Manage teams");
+    private void runManageTeams() {
+        int option;
+        do {
+            io.manageTeamsMenu();
+            option = io.askInteger("\nChoose an option: ");
+            executeManageTeams(OptionMangeTeam.convertIntToEnum(option));
+        } while (option != 4);
     }
 
     private void listItems() {
