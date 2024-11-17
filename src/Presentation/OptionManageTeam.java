@@ -13,12 +13,12 @@ public enum OptionManageTeam {
      * @param value the integer value to convert to an Option.
      * @return the corresponding Option enum value. If the value is not within the valid range, returns Option.ELSE.
      */
-    public static OptionStartingMenu convertIntToEnum(int value) {
+    public static OptionManageTeam convertIntToEnum(int value) {
 
         if (value <= 4){
-            return OptionStartingMenu.values()[value - 1];
+            return OptionManageTeam.values()[value - 1];
         } else {
-            return OptionStartingMenu.ELSE;
+            return OptionManageTeam.ELSE;
         }
     }
 }

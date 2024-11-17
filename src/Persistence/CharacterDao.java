@@ -84,4 +84,9 @@ public class CharacterDao {
         return charactersName;
     }
 
+    public Character getCharacter(int index) {
+        ArrayList<Character> characters = getAllCharacters();
+        return characters.get(index - 1);
+    }
+
 }

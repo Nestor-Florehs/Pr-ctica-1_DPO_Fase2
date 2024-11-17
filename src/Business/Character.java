@@ -12,7 +12,13 @@ public class Character {
     }
 
     public String toString() {
-        return id + " " + name + " " + weight;
+        String characterAttributes;
+
+        characterAttributes = "\n\tID: " + "\t" + id;
+        characterAttributes += "\n\tNAME: " + "\t" + name;
+        characterAttributes += "\n\tWEIGHT: " + "\t" + weight;
+
+        return characterAttributes;
     }
 
     public long getId() {

@@ -1,6 +1,7 @@
 package Presentation;
 
 import java.util.ArrayList;
+import Business.Character;
 
 public class Output {
 
@@ -12,12 +13,12 @@ public class Output {
         System.out.println("\n\t5) Exit");
     }
 
-    public void listCharactersMenu(ArrayList<String> characters){
+    public void listMenu(ArrayList<String> strings){
         int i = 0;
         System.out.println();
-        for (String character : characters) {
+        for (String phrase : strings) {
             i++;
-            System.out.println("\t" + i + ")" + character);
+            System.out.println("\t" + i + ")" + phrase);
         }
         System.out.println();
 
@@ -26,7 +27,6 @@ public class Output {
 
     public void listCharacterAttributes(Character character){
         System.out.println(character.toString());
-        System.out.println("<Press any key to continue...>");
     }
 
     public void manageTeamsMenu(){
@@ -50,7 +50,7 @@ public class Output {
         int i;
         System.out.println("Game strategy for character #" + memberNumber + "?");
         for(i = 1; i < 2; i++) {
-            System.out.println(i + ") " + strategy.name);
+            System.out.println(i + ") " + strategy.getName());
         }
     }
      */

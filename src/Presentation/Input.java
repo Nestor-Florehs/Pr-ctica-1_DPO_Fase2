@@ -28,4 +28,10 @@ public class Input {
         string = sc.nextLine();
         return string;
     }
+
+    public void pressAnyKeyToContinue(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n<Press any key to continue...>");
+        scanner.nextLine(); // Espera a que el usuario presione Enter
+    }
 }

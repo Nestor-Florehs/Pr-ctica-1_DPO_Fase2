@@ -1,5 +1,5 @@
 package Presentation;
-import Business.CharacterManager;
+import Business.*;
 
 public class Controller {
     Input input;
@@ -25,23 +25,57 @@ public class Controller {
 
     public void executeManageTeams(OptionManageTeam option) {
         switch (option) {
-            case OptionManageTeam.CREATE_TEAM -> listCharacters();
-            case OptionManageTeam.LIST_TEAMS -> manageTeams();
-            case OptionManageTeam.DELETE_TEAM -> listItems();
+            case OptionManageTeam.CREATE_TEAM -> createTeam();
+            case OptionManageTeam.LIST_TEAMS -> listTeams();
+            case OptionManageTeam.DELETE_TEAM -> deleteTeam();
             case OptionManageTeam.BACK -> simulateCombat();
             case OptionManageTeam.ELSE -> System.out.println("Option not valid!");
         }
     }
 
+    private void createTeam() {
+        System.out.println("Create a new team");
+    }
+
+    private void listTeams() {
+        int option;
+
+        do {
+            output.listMenu(characterManager.listTeams());
+            option = input.askInteger("\nChoose an option: ");
+
+            if (option != 0) {
+                output.listCharacterAttributes(characterManager.listCharacterAttribute(option));
+                input.pressAnyKeyToContinue();
+            }
+        } while (option != 0);
+    }
+
+    private void deleteTeam() {
+        System.out.println("Delete a team");
+    }
+
     private void listCharacters() {
         int option;
 
-        output.listCharactersMenu(characterManager.listCharacters());
-        option = input.askInteger("\nChoose an option: ");
+        do {
+            output.listMenu(characterManager.listCharacters());
+            option = input.askInteger("\nChoose an option: ");
+
+            if (option != 0) {
+                output.listCharacterAttributes(characterManager.listCharacterAttribute(option));
+                input.pressAnyKeyToContinue();
+            }
+        } while (option != 0);
     }
 
     private void manageTeams() {
-        System.out.println("Manage teams");
+        int option;
+        do {
+            output.manageTeamsMenu();
+            option = input.askInteger("\nChoose an option: ");
+            executeManageTeams(OptionManageTeam.convertIntToEnum(option));
+        } while (option != 4);
     }
 
     private void listItems() {
