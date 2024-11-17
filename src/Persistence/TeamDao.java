@@ -37,7 +37,7 @@ public class TeamDao {
 
                 // Extract fields
                 String name = (String) team.get("name");
-                ArrayList<Integer> membersID = (ArrayList<Integer>) team.get("members");
+                ArrayList<Long> membersID = (ArrayList<Long>) team.get("members");
 
                 Team t = new Team(name, membersID);
                 teams.add(t);
@@ -55,6 +55,26 @@ public class TeamDao {
         for (Team team : teams) {
             teamNames.add(team.getName());
         }
+        return teamNames;
+    }
+
+    public ArrayList<String> getTeamsOfCharacter(long id) {
+        ArrayList<Team> teams = getAllTeams();
+        ArrayList<String> teamNames = new ArrayList<>();
+        boolean found;
+
+        for (Team team : teams) {
+            ArrayList<Long> membersIDs = team.getCharactersIDs();
+            found = false;
+
+            for (Long memberID : membersIDs) {
+                if (memberID == id && !found) {
+                    teamNames.add(team.getName());
+                    found = true;
+                }
+            }
+        }
+
         return teamNames;
     }
 

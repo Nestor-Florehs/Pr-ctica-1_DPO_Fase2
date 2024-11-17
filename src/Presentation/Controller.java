@@ -2,14 +2,17 @@ package Presentation;
 import Business.*;
 
 public class Controller {
-    Input input;
-    Output output;
-    CharacterManager characterManager;
+    private Input input;
+    private Output output;
+    private CharacterManager characterManager;
+    private TeamManager teamManager;
+
 
     public Controller() {
         input = new Input();
         output = new Output();
         characterManager = new CharacterManager();
+        teamManager = new TeamManager();
     }
 
     public void executeMainOption(OptionStartingMenu option) {
@@ -41,11 +44,11 @@ public class Controller {
         int option;
 
         do {
-            output.listMenu(characterManager.listTeams());
+            output.listMenu(teamManager.listTeams());
             option = input.askInteger("\nChoose an option: ");
 
             if (option != 0) {
-                output.listCharacterAttributes(characterManager.listCharacterAttribute(option));
+                //output.listTeamAttributes();
                 input.pressAnyKeyToContinue();
             }
         } while (option != 0);
@@ -63,7 +66,7 @@ public class Controller {
             option = input.askInteger("\nChoose an option: ");
 
             if (option != 0) {
-                output.listCharacterAttributes(characterManager.listCharacterAttribute(option));
+                output.listCharacterAttributes(characterManager.listCharacterAttribute(option), teamManager.listTeamsOfCharacter(option));
                 input.pressAnyKeyToContinue();
             }
         } while (option != 0);

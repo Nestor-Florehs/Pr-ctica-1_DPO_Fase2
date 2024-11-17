@@ -2,6 +2,7 @@ package Presentation;
 
 import java.util.ArrayList;
 import Business.Character;
+import Business.Team;
 
 public class Output {
 
@@ -25,8 +26,12 @@ public class Output {
         System.out.println("\t0) Back");
     }
 
-    public void listCharacterAttributes(Character character){
+    public void listCharacterAttributes(Character character, ArrayList<String> teamsNames){
         System.out.println(character.toString());
+        System.out.println("\tTEAMS:");
+        for (String name : teamsNames){
+            System.out.println("\t\t" + "-" + name);
+        }
     }
 
     public void manageTeamsMenu(){
@@ -43,6 +48,10 @@ public class Output {
 
     public void enterTeamMemberName(int memberNumber){
         System.out.println("Please enter name or id for character #" + memberNumber + ":");
+    }
+
+    public void listTeamAttributes (Team team, ArrayList<String> members, Stats teamStats){
+
     }
 
     /*

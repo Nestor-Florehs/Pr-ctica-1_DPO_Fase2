@@ -20,11 +20,4 @@ public class CharacterManager {
 
         return character;
     }
-
-    public ArrayList<String> listTeams() {
-        ArrayList<String> listTeamsName;
-        TeamDao teamDao = new TeamDao();
-        listTeamsName = teamDao.getAllTeamNames();
-        return listTeamsName;
-    }
 }

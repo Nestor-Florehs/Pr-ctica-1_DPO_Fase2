@@ -89,4 +89,14 @@ public class CharacterDao {
         return characters.get(index - 1);
     }
 
+    public Character getCharacterById(long id) {
+        ArrayList<Character> characters = getAllCharacters();
+
+        for (Character character : characters) {
+            if (character.getId() == id) {
+                return character;
+            }
+        }
+        return null;
+    }
 }
