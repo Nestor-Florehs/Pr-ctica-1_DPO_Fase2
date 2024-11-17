@@ -20,4 +20,14 @@ public class CharacterManager {
 
         return character;
     }
+
+    public ArrayList<String> getCharactersOfTeam(Team team) {
+        ArrayList<String> charactersName = new ArrayList<>();
+        CharacterDao characterDao = new CharacterDao();
+
+        charactersName = characterDao.getCharactersOfTeam(team);
+
+        return charactersName;
+    }
+
 }

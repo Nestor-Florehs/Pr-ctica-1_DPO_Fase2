@@ -12,4 +12,27 @@ public class Stats {
         this.KODone = KODone;
         this.KOReceived = KOReceived;
     }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public int getGamesWon() {
+        return gamesWon;
+    }
+
+    public int getKODone() {
+        return KODone;
+    }
+
+    public int getKOReceived() {
+        return KOReceived;
+    }
+
+    public String toString() {
+        return gamesPlayed + " " + gamesWon + " " + KODone + " " + KOReceived;
+    }
+
 }
+
+

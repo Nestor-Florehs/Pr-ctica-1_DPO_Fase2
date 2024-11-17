@@ -3,6 +3,7 @@ package Presentation;
 import java.util.ArrayList;
 import Business.Character;
 import Business.Team;
+import Business.Stats;
 
 public class Output {
 
@@ -50,9 +51,23 @@ public class Output {
         System.out.println("Please enter name or id for character #" + memberNumber + ":");
     }
 
-    public void listTeamAttributes (Team team, ArrayList<String> members, Stats teamStats){
 
+    public void listTeamAttributes (Team team, ArrayList<String> members, Stats teamStats){
+        System.out.println("\nTeam Name: " + team.getName() + "\n");
+        int i = 0;
+
+        for (String name : members){
+            i++;
+            System.out.println("Character #" + i + ": " + name + "\t(BALANCED)");
+        }
+
+        System.out.println("\nCombats played:\t" + teamStats.getGamesPlayed());
+        System.out.println("Combats won:\t" + teamStats.getGamesWon());
+        System.out.println("Win rate:\t" + ((teamStats.getGamesWon() * 100 )/ teamStats.getGamesPlayed()) + "%");
+        System.out.println("KOs done:\t" + teamStats.getKODone());
+        System.out.println("KOs received:\t" + teamStats.getKOReceived());
     }
+
 
     /*
     public void listTeamMemberStrategies(int memberNumber, Strategies strategy){

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Business.Team;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -87,6 +88,22 @@ public class CharacterDao {
     public Character getCharacter(int index) {
         ArrayList<Character> characters = getAllCharacters();
         return characters.get(index - 1);
+    }
+
+    public ArrayList<String> getCharactersOfTeam(Team team) {
+        ArrayList<String> charactersName = new ArrayList<>();
+        ArrayList<Character> characters = getAllCharacters();
+        ArrayList<Long> membersIDs = team.getCharactersIDs();
+
+        for (Long id : membersIDs) {
+            for (Character character : characters) {
+                if (character.getId() == id) {
+                    charactersName.add(character.getName());
+                }
+            }
+        }
+
+        return charactersName;
     }
 
     public Character getCharacterById(long id) {

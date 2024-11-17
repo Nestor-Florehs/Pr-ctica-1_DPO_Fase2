@@ -78,4 +78,9 @@ public class TeamDao {
         return teamNames;
     }
 
+    public Team getTeamByIndex(int index) {
+        ArrayList<Team> teams = getAllTeams();
+        return teams.get(index - 1);
+    }
+
 }

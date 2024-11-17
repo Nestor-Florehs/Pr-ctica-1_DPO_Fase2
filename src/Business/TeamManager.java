@@ -17,9 +17,17 @@ public class TeamManager {
     public ArrayList<String> listTeamsOfCharacter(int index) {
         CharacterDao characterDao = new CharacterDao();
         TeamDao teamDao = new TeamDao();
-        ArrayList<String> teamsOfCharacter = new ArrayList<>();
 
         Character character = characterDao.getCharacter(index);
         return teamDao.getTeamsOfCharacter(character.getId());
+    }
+
+    public Team getTeamByIndex(int index) {
+        Team team;
+        TeamDao teamDao = new TeamDao();
+
+        team = teamDao.getTeamByIndex(index);
+
+        return team;
     }
 }

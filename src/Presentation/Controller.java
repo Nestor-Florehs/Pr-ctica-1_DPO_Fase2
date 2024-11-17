@@ -6,13 +6,14 @@ public class Controller {
     private Output output;
     private CharacterManager characterManager;
     private TeamManager teamManager;
-
+    private StatsManager statsManager;
 
     public Controller() {
         input = new Input();
         output = new Output();
         characterManager = new CharacterManager();
         teamManager = new TeamManager();
+        statsManager = new StatsManager();
     }
 
     public void executeMainOption(OptionStartingMenu option) {
@@ -48,7 +49,8 @@ public class Controller {
             option = input.askInteger("\nChoose an option: ");
 
             if (option != 0) {
-                //output.listTeamAttributes();
+                Team team = teamManager.getTeamByIndex(option);
+                output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
                 input.pressAnyKeyToContinue();
             }
         } while (option != 0);
