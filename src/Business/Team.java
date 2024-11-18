@@ -18,4 +18,8 @@ public class Team {
     public ArrayList<Long> getCharactersIDs() {
         return charactersIDs;
     }
+
+    public String toString() {
+        return name + " " + charactersIDs;
+    }
 }

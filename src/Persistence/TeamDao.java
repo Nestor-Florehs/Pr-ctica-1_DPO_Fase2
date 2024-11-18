@@ -1,5 +1,6 @@
 package Persistence;
 
+import Business.Character;
 import Presentation.Input;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -7,6 +8,8 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import Business.Team;
 
@@ -49,6 +52,55 @@ public class TeamDao {
         return teams;
     }
 
+    public void saveTeams (ArrayList<Team> teams) throws IOException {
+        JSONArray teamArray = new JSONArray();
+
+        for (Team team : teams) {
+            JSONObject teamObject = new JSONObject();
+            teamObject.put("name", team.getName());
+            teamObject.put("members", team.getCharactersIDs());
+
+            teamArray.add(teamObject);
+        }
+
+        File file = new File(FILE_PATH);
+
+        FileWriter writeTeams = new FileWriter(file);
+        writeTeams.write(teamArray.toJSONString());
+        writeTeams.flush();
+        writeTeams.close();
+    }
+
+    public Team getTeamByName(String name) {
+        ArrayList<Team> teams = getAllTeams();
+        for (Team t : teams) {
+            if (t.getName().equals(name)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public String deleteTeamByName(String name) throws IOException {
+        Team t = getTeamByName(name);
+        ArrayList<Team> teams = getAllTeams();
+        boolean found = false;
+
+        for (int i = 0; i < teams.size(); i++) {
+            if (teams.get(i).getName().equals(name)) {
+                found = true;
+                teams.remove(i);
+            }
+        }
+        saveTeams(teams);
+
+        if (found) {
+            return "\n\t(" + name + ")" + " has been removed from the system.";
+        } else {
+            return "\n\t(" + name + ")" + " has not exist in the system.";
+        }
+    }
+
     public ArrayList<String> getAllTeamNames() {
         ArrayList<String> teamNames = new ArrayList<>();
         ArrayList<Team> teams = getAllTeams();
@@ -82,5 +134,4 @@ public class TeamDao {
         ArrayList<Team> teams = getAllTeams();
         return teams.get(index - 1);
     }
-
 }

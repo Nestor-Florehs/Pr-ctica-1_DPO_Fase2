@@ -16,13 +16,13 @@ public class Input {
             integer = Integer.parseInt(sc.nextLine());
         }
         catch (Exception e) {
-            System.out.println("\tInvalid option!!\n");
+            Output.printPhrase("\tInvalid option!!\n");
             return askInteger(prompt);
         }
         return integer;
     }
 
-    public static String askString(String prompt){
+    public String askString(String prompt){
         String string;
         System.out.print(prompt);
         string = sc.nextLine();
@@ -31,7 +31,7 @@ public class Input {
 
     public void pressAnyKeyToContinue(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n<Press any key to continue...>");
+        Output.printPhrase("\n<Press any key to continue...>");
         scanner.nextLine(); // Espera a que el usuario presione Enter
     }
 }

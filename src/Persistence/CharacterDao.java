@@ -55,7 +55,7 @@ public class CharacterDao {
         return characters;
     }
 
-    public static void saveParticipants(ArrayList<Character> characters) throws IOException {
+    public static void saveCharacter(ArrayList<Character> characters) throws IOException {
         JSONArray characterArray = new JSONArray();
 
         for (Character participant : characters) {
@@ -68,7 +68,6 @@ public class CharacterDao {
         }
 
         File file = new File(FILE_PATH);
-        file.getParentFile().mkdirs(); // Crea los directorios si no existen
 
         FileWriter writerParticipants = new FileWriter(file);
         writerParticipants.write(characterArray.toJSONString());

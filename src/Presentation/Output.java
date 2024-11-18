@@ -15,6 +15,10 @@ public class Output {
         System.out.println("\n\t5) Exit");
     }
 
+    public static void printPhrase(String phrase) {
+        System.out.println(phrase);
+    }
+
     public void listMenu(ArrayList<String> strings){
         int i = 0;
         System.out.println();
@@ -30,8 +34,12 @@ public class Output {
     public void listCharacterAttributes(Character character, ArrayList<String> teamsNames){
         System.out.println(character.toString());
         System.out.println("\tTEAMS:");
-        for (String name : teamsNames){
-            System.out.println("\t\t" + "-" + name);
+        if (teamsNames.size() > 0) {
+            for (String name : teamsNames){
+                System.out.println("\t\t" + "-" + name);
+            }
+        } else {
+            System.out.println("\t\t" + "-No teams");
         }
     }
 

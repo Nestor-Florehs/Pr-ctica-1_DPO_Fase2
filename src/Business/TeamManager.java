@@ -3,6 +3,7 @@ package Business;
 import Persistence.TeamDao;
 import Persistence.CharacterDao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TeamManager {
@@ -29,5 +30,10 @@ public class TeamManager {
         team = teamDao.getTeamByIndex(index);
 
         return team;
+    }
+
+    public String deleteTeamByName(String name) throws IOException {
+        TeamDao teamDao = new TeamDao();
+        return teamDao.deleteTeamByName(name);
     }
 }

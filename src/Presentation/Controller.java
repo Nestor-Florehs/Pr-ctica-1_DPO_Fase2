@@ -1,6 +1,8 @@
 package Presentation;
 import Business.*;
 
+import java.io.IOException;
+
 public class Controller {
     private Input input;
     private Output output;
@@ -16,7 +18,7 @@ public class Controller {
         statsManager = new StatsManager();
     }
 
-    public void executeMainOption(OptionStartingMenu option) {
+    public void executeMainOption(OptionStartingMenu option) throws IOException {
         switch (option) {
             case OptionStartingMenu.LIST_CHARACTERS -> listCharacters();
             case OptionStartingMenu.MANAGE_TEAMS -> manageTeams();
@@ -27,7 +29,7 @@ public class Controller {
         }
     }
 
-    public void executeManageTeams(OptionManageTeam option) {
+    public void executeManageTeams(OptionManageTeam option) throws IOException {
         switch (option) {
             case OptionManageTeam.CREATE_TEAM -> createTeam();
             case OptionManageTeam.LIST_TEAMS -> listTeams();
@@ -56,8 +58,15 @@ public class Controller {
         } while (option != 0);
     }
 
-    private void deleteTeam() {
-        System.out.println("Delete a team");
+    private void deleteTeam() throws IOException {
+        String teamName;
+        teamName = input.askString("\n\tEnter the name of the team to remove: ");
+
+        if (input.askString("\n\tAre you sure you want to delete this team ? ").equals("Yes")) {
+            Output.printPhrase(teamManager.deleteTeamByName(teamName));
+        } else {
+            Output.printPhrase("Team doesn't delete");
+        }
     }
 
     private void listCharacters() {
@@ -74,7 +83,7 @@ public class Controller {
         } while (option != 0);
     }
 
-    private void manageTeams() {
+    private void manageTeams() throws IOException {
         int option;
         do {
             output.manageTeamsMenu();
@@ -91,7 +100,7 @@ public class Controller {
         System.out.println("Simulate combat");
     }
 
-    public void run() {
+    public void run() throws IOException {
         int option;
         do {
             output.mainMenu();
@@ -100,7 +109,7 @@ public class Controller {
         } while (option != 5);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Controller().run();
     }
 }
