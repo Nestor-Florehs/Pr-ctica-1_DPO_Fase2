@@ -1,10 +1,9 @@
 package Presentation;
 
 import java.util.ArrayList;
+
+import Business.*;
 import Business.Character;
-import Business.Item;
-import Business.Team;
-import Business.Stats;
 
 public class Output {
 
@@ -65,13 +64,13 @@ public class Output {
     }
 
 
-    public void listTeamAttributes (Team team, ArrayList<String> members, Stats teamStats){
+    public void listTeamAttributes (Team team, ArrayList<Member> members, Stats teamStats){
         System.out.println("\nTeam Name: " + team.getName() + "\n");
         int i = 0;
 
-        for (String name : members){
+        for (Member member : members){
             i++;
-            System.out.println("Character #" + i + ": " + name + "\t(BALANCED)");
+            System.out.println("Character #" + i + ": " + member.getName() + "\t(" + member.getStrategy() + ")");
         }
 
         System.out.println("\nCombats played:\t" + teamStats.getGamesPlayed());

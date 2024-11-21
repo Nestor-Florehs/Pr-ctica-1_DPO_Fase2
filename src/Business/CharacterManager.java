@@ -19,13 +19,17 @@ public class CharacterManager {
         return character;
     }
 
-    public ArrayList<String> getCharactersOfTeam(Team team) {
-        ArrayList<String> charactersName;
+    public ArrayList<Member> getCharactersOfTeam(Team team) {
+        ArrayList<Member> members;
         CharacterDao characterDao = new CharacterDao();
 
-        charactersName = characterDao.getCharactersOfTeam(team);
+        members = characterDao.getCharactersOfTeam(team);
 
-        return charactersName;
+        for (Member member : members) {
+            member.setName(characterDao.getCharacterById(member.getId()).getName());
+        }
+
+        return members;
     }
 
 }

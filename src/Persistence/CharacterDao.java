@@ -90,21 +90,24 @@ public class CharacterDao {
         return characters.get(index - 1);
     }
 
-    public ArrayList<String> getCharactersOfTeam(Team team) {
-        ArrayList<String> charactersName = new ArrayList<>();
+    public ArrayList<Member> getCharactersOfTeam(Team team) {
         ArrayList<Character> characters = getAllCharacters();
-        ArrayList<Long> membersIDs = team.getCharactersIDs();
+        ArrayList<Member> members = team.getMembers();
+        ArrayList<Member> enrichedMembers = new ArrayList<>();
 
-        for (Long id : membersIDs) {
+        for (Member member : members) {
             for (Character character : characters) {
-                if (character.getId() == id) {
-                    charactersName.add(character.getName());
+                if (character.getId() == member.getId()) {
+                    // Create a new Member with additional details and add it to the result list
+                    enrichedMembers.add(new Member(member.getId(), member.getStrategy()));
+                    break; // Break the inner loop once a match is found
                 }
             }
         }
 
-        return charactersName;
+        return enrichedMembers;
     }
+
 
     public Character getCharacterById(long id) {
         ArrayList<Character> characters = getAllCharacters();

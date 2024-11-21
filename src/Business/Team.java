@@ -23,6 +23,10 @@ public class Team {
         return charactersIDs;
     }
 
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
     public String toString() {
         return name + " " + members;
     }
