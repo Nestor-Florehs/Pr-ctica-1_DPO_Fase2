@@ -41,6 +41,7 @@ public class Controller {
         }
     }
 
+    // TODO, crear la función crear equipo.
     private void createTeam() {
         System.out.println("Create a new team");
     }

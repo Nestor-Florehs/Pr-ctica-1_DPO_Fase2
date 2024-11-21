@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Team {
     private String name;
-    private ArrayList<Long> charactersIDs = new ArrayList<>();
+    private ArrayList<Member> members;
 
-    public Team(String name, ArrayList<Long> charactersIDs) {
+    public Team(String name, ArrayList<Member> members) {
         this.name = name;
-        this.charactersIDs = charactersIDs;
+        this.members = members;
     }
 
     public String getName() {
@@ -16,10 +16,14 @@ public class Team {
     }
 
     public ArrayList<Long> getCharactersIDs() {
+        ArrayList<Long> charactersIDs = new ArrayList<>();
+        for (Member member : members) {
+            charactersIDs.add(member.getId());
+        }
         return charactersIDs;
     }
 
     public String toString() {
-        return name + " " + charactersIDs;
+        return name + " " + members;
     }
 }

@@ -1,7 +1,6 @@
 package Business;
 
 import Persistence.TeamDao;
-import Business.CharacterManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

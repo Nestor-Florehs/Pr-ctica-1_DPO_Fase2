@@ -1,6 +1,7 @@
 package Persistence;
 
 import Business.Character;
+import Business.Member;
 import Presentation.Input;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,10 +22,10 @@ public class TeamDao {
         ArrayList<Team> teams = new ArrayList<>();
 
         try {
-            // Verifica si el archivo existe antes de intentar leer
+            // Check if the file exists
             File file = new File(FILE_PATH);
             if (!file.exists()) {
-                System.err.println("El archivo no existe, devolviendo una lista vacía.");
+                System.err.println("The file does not exist, returning an empty list.");
                 return teams;
             }
 
@@ -36,13 +37,19 @@ public class TeamDao {
 
             // Iterate through each JSON object in the array
             for (Object o : array) {
+                ArrayList<Member> membersList = new ArrayList<>();
                 JSONObject team = (JSONObject) o;
+                JSONArray members = (JSONArray) team.get("members");
 
                 // Extract fields
                 String name = (String) team.get("name");
-                ArrayList<Long> membersID = (ArrayList<Long>) team.get("members");
-
-                Team t = new Team(name, membersID);
+                for (Object o2 : members) {
+                    JSONObject member = (JSONObject) o2;
+                    long id = (long) member.get("id"); // Handle long for large numbers
+                    String strategy = (String) member.get("strategy"); // Handle strategy field
+                    membersList.add(new Member(id, strategy));
+                }
+                Team t = new Team(name, membersList);
                 teams.add(t);
             }
         } catch (Exception e) {
@@ -51,6 +58,7 @@ public class TeamDao {
 
         return teams;
     }
+
 
     public void saveTeams (ArrayList<Team> teams) throws IOException {
         JSONArray teamArray = new JSONArray();
@@ -134,4 +142,5 @@ public class TeamDao {
         ArrayList<Team> teams = getAllTeams();
         return teams.get(index - 1);
     }
+
 }
