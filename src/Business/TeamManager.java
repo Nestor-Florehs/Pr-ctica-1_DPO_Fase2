@@ -1,7 +1,7 @@
 package Business;
 
 import Persistence.TeamDao;
-import Persistence.CharacterDao;
+import Business.CharacterManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class TeamManager {
     }
 
     public ArrayList<String> listTeamsOfCharacter(int index) {
-        CharacterDao characterDao = new CharacterDao();
+        CharacterManager characterManager = new CharacterManager();
         TeamDao teamDao = new TeamDao();
 
-        Character character = characterDao.getCharacter(index);
+        Character character = characterManager.listCharacterAttribute(index);
         return teamDao.getTeamsOfCharacter(character.getId());
     }
 

@@ -9,6 +9,7 @@ public class Controller {
     private CharacterManager characterManager;
     private TeamManager teamManager;
     private StatsManager statsManager;
+    private ItemManager itemManager;
 
     public Controller() {
         input = new Input();
@@ -16,6 +17,7 @@ public class Controller {
         characterManager = new CharacterManager();
         teamManager = new TeamManager();
         statsManager = new StatsManager();
+        itemManager = new ItemManager();
     }
 
     public void executeMainOption(OptionStartingMenu option) throws IOException {
@@ -77,8 +79,13 @@ public class Controller {
             option = input.askInteger("\nChoose an option: ");
 
             if (option != 0) {
-                output.listCharacterAttributes(characterManager.listCharacterAttribute(option), teamManager.listTeamsOfCharacter(option));
-                input.pressAnyKeyToContinue();
+                try {
+                    output.listCharacterAttributes(characterManager.listCharacterAttribute(option), teamManager.listTeamsOfCharacter(option));
+                    input.pressAnyKeyToContinue();
+                } catch (Exception e) {
+                    output.printPhrase("Character doesn't exist");
+                    input.pressAnyKeyToContinue();
+                }
             }
         } while (option != 0);
     }
@@ -93,7 +100,22 @@ public class Controller {
     }
 
     private void listItems() {
-        System.out.println("Lista de items");
+        int option;
+        do {
+            output.listMenu(itemManager.listItems());
+            option = input.askInteger("\nChoose an option: ");
+
+            if (option != 0) {
+                try {
+                    output.listItemAttributes(itemManager.listItemAttribute(option));
+                    input.pressAnyKeyToContinue();
+                } catch (Exception e) {
+                    output.printPhrase("Input doesn't exist");
+                    input.pressAnyKeyToContinue();
+                }
+            }
+        } while (option != 0);
+
     }
 
     private void simulateCombat() {

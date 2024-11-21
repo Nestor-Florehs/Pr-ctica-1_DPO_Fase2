@@ -2,6 +2,7 @@ package Presentation;
 
 import java.util.ArrayList;
 import Business.Character;
+import Business.Item;
 import Business.Team;
 import Business.Stats;
 
@@ -41,6 +42,10 @@ public class Output {
         } else {
             System.out.println("\t\t" + "-No teams");
         }
+    }
+
+    public void listItemAttributes(Item item){
+        System.out.println(item);
     }
 
     public void manageTeamsMenu(){

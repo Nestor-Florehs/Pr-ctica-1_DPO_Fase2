@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class ItemDao {
-    private static final String FILE_PATH = "files/items.json";
+    private static final String FILE_PATH = "Practica-1-DPO/src/Persistence/Database/items.json";
 
     private ArrayList<Item> getAllItems() {
         JSONParser parser = new JSONParser();
@@ -40,7 +40,7 @@ public class ItemDao {
                 long id = (long) item.get("id");
                 String name = (String) item.get("name");
                 long powerLong = (long) item.get("power");
-                long durabilityLong = (long) item.get("power");
+                long durabilityLong = (long) item.get("durability");
                 String type = (String) item.get("class");
 
 

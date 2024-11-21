@@ -16,7 +16,13 @@ public class Item {
     }
 
     public String toString(){
-        return id + " " + name + " " + power + " " + durability + " " + type;
+        String itemAttributes;
+        itemAttributes = "\n\tID: " + id;
+        itemAttributes += "\n\tNAME: "  + name;
+        itemAttributes += "\n\tCLASS: " + type;
+        itemAttributes += "\n\tPOWER: " + power;
+        itemAttributes += "\n\tDURABILITY: " + durability;
+        return itemAttributes;
     }
 
     public long getId() {
