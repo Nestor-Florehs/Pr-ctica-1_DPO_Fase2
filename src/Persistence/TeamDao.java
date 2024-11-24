@@ -60,24 +60,34 @@ public class TeamDao {
     }
 
 
-    public void saveTeams (ArrayList<Team> teams) throws IOException {
+    public void saveTeams(ArrayList<Team> teams) throws IOException {
         JSONArray teamArray = new JSONArray();
 
         for (Team team : teams) {
             JSONObject teamObject = new JSONObject();
             teamObject.put("name", team.getName());
-            teamObject.put("members", team.getCharactersIDs());
 
+            // Crear un JSONArray para los miembros
+            JSONArray membersArray = new JSONArray();
+            for (Member member : team.getMembers()) {
+                JSONObject memberObject = new JSONObject();
+                memberObject.put("id", member.getId());
+                memberObject.put("strategy", member.getStrategy());
+                membersArray.add(memberObject);
+            }
+
+            teamObject.put("members", membersArray); // Añadir los miembros al equipo
             teamArray.add(teamObject);
         }
 
+        // Guardar en el archivo
         File file = new File(FILE_PATH);
-
-        FileWriter writeTeams = new FileWriter(file);
-        writeTeams.write(teamArray.toJSONString());
-        writeTeams.flush();
-        writeTeams.close();
+        try (FileWriter writeTeams = new FileWriter(file)) {
+            writeTeams.write(teamArray.toJSONString());
+            writeTeams.flush();
+        }
     }
+
 
     public Team getTeamByName(String name) {
         ArrayList<Team> teams = getAllTeams();
@@ -141,6 +151,12 @@ public class TeamDao {
     public Team getTeamByIndex(int index) {
         ArrayList<Team> teams = getAllTeams();
         return teams.get(index - 1);
+    }
+
+    public void addTeam(Team team) throws IOException {
+        ArrayList<Team> teams = getAllTeams();
+        teams.add(team);
+        saveTeams(teams);
     }
 
 }

@@ -1,7 +1,9 @@
 package Presentation;
 import Business.*;
+import Business.Character;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Controller {
     private Input input;
@@ -41,9 +43,50 @@ public class Controller {
         }
     }
 
+    private String askStrategy(int index){
+        Output.printPhrase("Game strategy for character #" + index+ "?");
+        Output.printPhrase("\t1) Balanced");
+        int option = input.askInteger("\nChoose and option: ");
+        switch (option) {
+            case 1:
+                return "balanced";
+            default:
+                Output.printPhrase("\tOption not valid!");
+                return askStrategy(index);
+        }
+    }
+
+    private ArrayList<Member> getMembers() {
+        ArrayList<Member> members = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            String member = input.askString("\nPlease enter name or id for character #" + i + ": ");
+            Character character = characterManager.getCharacterByIdOrName(member);
+            if (character == null) {
+                Output.printPhrase("\nCharacter #" + i + " does not exist");
+                i--;
+            } else {
+                String strategy = askStrategy(i);
+                Member member1 = new Member(character.getId(), strategy);
+                member1.setName(character.getName());
+                members.add(member1);
+            }
+        }
+        return members;
+    }
+
     // TODO, crear la función crear equipo.
-    private void createTeam() {
-        System.out.println("Create a new team");
+    private void createTeam() throws IOException {
+        String teamName = input.askString("\nPlease enter the team's name: ");
+        Team t = teamManager.getTeamByName(teamName);
+        ArrayList<Member> members;
+
+        if (t == null) {
+            members = getMembers();
+            Team team = new Team(teamName, members);
+            teamManager.addTeam(team);
+        } else {
+            Output.printPhrase("\nWe are sorry \"" + t.getName() + "\" is taken.");
+        }
     }
 
     private void listTeams() {

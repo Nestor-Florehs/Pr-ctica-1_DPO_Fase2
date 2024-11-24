@@ -35,4 +35,14 @@ public class TeamManager {
         TeamDao teamDao = new TeamDao();
         return teamDao.deleteTeamByName(name);
     }
+
+    public Team getTeamByName(String name) {
+        TeamDao teamDao = new TeamDao();
+        return teamDao.getTeamByName(name);
+    }
+
+    public void addTeam(Team team) throws IOException {
+        TeamDao teamDao = new TeamDao();
+        teamDao.addTeam(team);
+    }
 }

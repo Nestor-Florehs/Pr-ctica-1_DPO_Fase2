@@ -32,4 +32,15 @@ public class CharacterManager {
         return members;
     }
 
+    public Character getCharacterByIdOrName(String input) {
+        CharacterDao characterDao = new CharacterDao();
+        try {
+            Long id = Long.parseLong(input);
+            Character character = characterDao.getCharacterById(id);
+            return character;
+        } catch (Exception e) {
+            Character character = characterDao.getCharacterByName(input);
+            return character;
+        }
+    }
 }

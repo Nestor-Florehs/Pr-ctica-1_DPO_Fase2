@@ -119,4 +119,14 @@ public class CharacterDao {
         }
         return null;
     }
+
+    public Character getCharacterByName(String name) {
+        ArrayList<Character> characters = getAllCharacters();
+        for (Character character : characters) {
+            if (character.getName().equals(name)) {
+                return character;
+            }
+        }
+        return null;
+    }
 }
