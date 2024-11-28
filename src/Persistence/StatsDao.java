@@ -5,8 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class StatsDao {
@@ -49,7 +48,36 @@ public class StatsDao {
         return stats;
     }
 
+    public void saveStats(ArrayList<Stats> stats, String teamName) {
+        JSONArray statsArray = new JSONArray();
+
+        for (Stats s : stats) {
+            JSONObject stat = new JSONObject();
+            stat.put("name", teamName);
+            stat.put("games_played", s.getGamesPlayed());
+            stat.put("games_won", s.getGamesWon());
+            stat.put("KO_done", s.getKODone());
+            stat.put("KO_received", s.getKOReceived());
+
+            statsArray.add(stat);
+        }
+
+        File file = new File(FILE_PATH);
+        try (FileWriter writeTeams = new FileWriter(file)) {
+            writeTeams.write(statsArray.toJSONString());
+            writeTeams.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Stats getStatsByIndex(int index) {
         return getAllStats().get(index - 1);
+    }
+
+    public void addStats(Stats s, String teamName) {
+       ArrayList<Stats> stats = getAllStats();
+       stats.add(s);
+       saveStats(stats, teamName);
     }
 }

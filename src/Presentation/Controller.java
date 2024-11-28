@@ -74,7 +74,7 @@ public class Controller {
         return members;
     }
 
-    // TODO, crear la función crear equipo.
+    // TODO, solucionar guardado de las Stats iniciales, guarda en el json el nombre de los equipos mal
     private void createTeam() throws IOException {
         String teamName = input.askString("\nPlease enter the team's name: ");
         Team t = teamManager.getTeamByName(teamName);
@@ -84,6 +84,7 @@ public class Controller {
             members = getMembers();
             Team team = new Team(teamName, members);
             teamManager.addTeam(team);
+            statsManager.inicialiceStats(teamName);
         } else {
             Output.printPhrase("\nWe are sorry \"" + t.getName() + "\" is taken.");
         }
@@ -97,9 +98,14 @@ public class Controller {
             option = input.askInteger("\nChoose an option: ");
 
             if (option != 0) {
-                Team team = teamManager.getTeamByIndex(option);
-                output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
-                input.pressAnyKeyToContinue();
+                try {
+                    Team team = teamManager.getTeamByIndex(option);
+                    output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
+                    input.pressAnyKeyToContinue();
+                } catch (Exception e) {
+                    output.printPhrase("Team doesn't exist");
+                    input.pressAnyKeyToContinue();
+                }
             }
         } while (option != 0);
     }

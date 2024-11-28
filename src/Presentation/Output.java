@@ -75,7 +75,11 @@ public class Output {
 
         System.out.println("\nCombats played:\t" + teamStats.getGamesPlayed());
         System.out.println("Combats won:\t" + teamStats.getGamesWon());
-        System.out.println("Win rate:\t" + ((teamStats.getGamesWon() * 100 )/ teamStats.getGamesPlayed()) + "%");
+        if (teamStats.getGamesPlayed() == 0) {
+            System.out.println("Win rate:\tN/A (no games played)");
+        } else {
+            System.out.println("Win rate:\t" + ((teamStats.getGamesWon() * 100) / teamStats.getGamesPlayed()) + "%");
+        }
         System.out.println("KOs done:\t" + teamStats.getKODone());
         System.out.println("KOs received:\t" + teamStats.getKOReceived());
     }
