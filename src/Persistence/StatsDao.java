@@ -53,7 +53,6 @@ public class StatsDao {
 
         for (Stats s : stats) {
             JSONObject stat = new JSONObject();
-            stat.put("name", teamName);
             stat.put("games_played", s.getGamesPlayed());
             stat.put("games_won", s.getGamesWon());
             stat.put("KO_done", s.getKODone());

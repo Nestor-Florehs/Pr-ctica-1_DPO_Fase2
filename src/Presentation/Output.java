@@ -150,6 +150,16 @@ public class Output {
     }
     */
 
+    public void listTeamsNames(ArrayList<String> teamsNames){
+        int i = 0;
+        System.out.println();
+        for (String teamName : teamsNames) {
+            i++;
+            System.out.println("\t" + i + ")" + teamName);
+        }
+        System.out.println();
+    }
+
     public void simulateCombatMenu(){
 
     }

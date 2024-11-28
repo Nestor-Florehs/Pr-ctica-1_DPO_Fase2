@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Controller {
-    private Input input;
-    private Output output;
-    private CharacterManager characterManager;
-    private TeamManager teamManager;
-    private StatsManager statsManager;
-    private ItemManager itemManager;
+    private final Input input;
+    private final Output output;
+    private final CharacterManager characterManager;
+    private final TeamManager teamManager;
+    private final StatsManager statsManager;
+    private final ItemManager itemManager;
 
     public Controller() {
         input = new Input();
@@ -47,12 +47,11 @@ public class Controller {
         Output.printPhrase("Game strategy for character #" + index+ "?");
         Output.printPhrase("\t1) Balanced");
         int option = input.askInteger("\nChoose and option: ");
-        switch (option) {
-            case 1:
-                return "balanced";
-            default:
-                Output.printPhrase("\tOption not valid!");
-                return askStrategy(index);
+        if (option == 1) {
+            return "balanced";
+        } else {
+            Output.printPhrase("\tOption not valid!");
+            return askStrategy(index);
         }
     }
 
@@ -103,7 +102,7 @@ public class Controller {
                     output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
                     input.pressAnyKeyToContinue();
                 } catch (Exception e) {
-                    output.printPhrase("Team doesn't exist");
+                    Output.printPhrase("Team doesn't exist");
                     input.pressAnyKeyToContinue();
                 }
             }
@@ -133,7 +132,7 @@ public class Controller {
                     output.listCharacterAttributes(characterManager.listCharacterAttribute(option), teamManager.listTeamsOfCharacter(option));
                     input.pressAnyKeyToContinue();
                 } catch (Exception e) {
-                    output.printPhrase("Character doesn't exist");
+                    Output.printPhrase("Character doesn't exist");
                     input.pressAnyKeyToContinue();
                 }
             }
@@ -160,7 +159,7 @@ public class Controller {
                     output.listItemAttributes(itemManager.listItemAttribute(option));
                     input.pressAnyKeyToContinue();
                 } catch (Exception e) {
-                    output.printPhrase("Input doesn't exist");
+                    Output.printPhrase("Input doesn't exist");
                     input.pressAnyKeyToContinue();
                 }
             }
@@ -168,8 +167,31 @@ public class Controller {
 
     }
 
+    public void initializeBattle (ArrayList<Team> teams) {
+        Output.printPhrase("Initializing teams...");
+
+    }
+
+    private ArrayList<Team> selectTeamsForBattle() {
+        ArrayList<Team> teams = new ArrayList<>();
+        Output.printPhrase("Looking for available teams...");
+
+        ArrayList<String> teamsName = teamManager.listTeams();
+        output.listTeamsNames(teamsName);
+
+        for (int i = 1; i <= 2; i++) {
+            int teamIndex = input.askInteger("Choose team #" + i + ": ");
+            Team team = teamManager.getTeamByIndex(teamIndex);
+            teams.add(team);
+        }
+
+        return teams;
+    }
+
     private void simulateCombat() {
-        System.out.println("Simulate combat");
+        Output.printPhrase("\nStarting simulation...");
+        ArrayList<Team> teams = selectTeamsForBattle();
+        initializeBattle(teams);
     }
 
     public void run() throws IOException {
