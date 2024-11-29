@@ -6,6 +6,7 @@ public class Member {
     private String name;
     private Item armor;
     private Item weapon;
+    private int damageReceived;
 
     public Member(Long id, String strategy) {
         this.id = id;
@@ -53,5 +54,9 @@ public class Member {
 
     public Item getWeapon() {
         return weapon;
+    }
+
+    public void setDamageReceived(int damageReceived) {
+        this.damageReceived = damageReceived;
     }
 }

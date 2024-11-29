@@ -169,13 +169,20 @@ public class Controller {
 
     }
 
-    public void initializeBattle (ArrayList<Team> teams) {
+    private void executeBattle() {
+        System.out.print("Combat ready!");
+        input.pressAnyKeyToContinue();
+
+    }
+
+    private void initializeBattle (ArrayList<Team> teams) {
         Output.printPhrase("Initializing teams...");
 
         for (Team team : teams) {
             for (int j = 0; j < 4; j++) {
                 Item randomWeapon = itemManager.getRandomWeapon();
                 Item randomArmor = itemManager.getRandomArmor();
+                Member member = team.getMembers().get(j);
 
                 if (randomArmor == null) {
                     j--;
@@ -184,16 +191,17 @@ public class Controller {
                     j--;
                 }
 
-                team.getMembers().get(j).setArmor(randomArmor);
-                team.getMembers().get(j).setWeapon(randomWeapon);
+                member.setArmor(randomArmor);
+                member.setWeapon(randomWeapon);
 
-                String memberID = String.valueOf(team.getMembers().get(j).getId()) ;
-                team.getMembers().get(j).setName(characterManager.getCharacterByIdOrName(memberID).getName());
-
+                String memberID = String.valueOf(member.getId()) ;
+                member.setName(characterManager.getCharacterByIdOrName(memberID).getName());
+                member.setDamageReceived(0);
             }
         }
 
         output.showTeamsForBattle(teams);
+        executeBattle();
     }
 
     private ArrayList<Team> selectTeamsForBattle() {
