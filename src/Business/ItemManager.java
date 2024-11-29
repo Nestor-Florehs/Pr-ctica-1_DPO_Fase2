@@ -19,4 +19,22 @@ public class ItemManager {
 
         return item;
     }
+
+    public Item getRandomWeapon () {
+        ItemDao itemDao = new ItemDao();
+        Item item;
+
+        item = itemDao.getRandomWeapon();
+
+        return item;
+    }
+
+    public Item getRandomArmor () {
+        ItemDao itemDao = new ItemDao();
+        Item item;
+
+        item = itemDao.getRandomArmor();
+
+        return item;
+    }
 }

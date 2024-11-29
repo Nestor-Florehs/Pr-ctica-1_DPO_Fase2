@@ -10,6 +10,10 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import Business.Item;
 
 public class ItemDao {
     private static final String FILE_PATH = "Practica-1-DPO/src/Persistence/Database/items.json";
@@ -67,9 +71,44 @@ public class ItemDao {
         return itemsName;
     }
 
-    public Business.Item getItem(int index) {
-        ArrayList<Business.Item> items = getAllItems();
+    public Item getItem(int index) {
+        ArrayList<Item> items = getAllItems();
         return items.get(index - 1);
     }
+
+    public Item getRandomWeapon() {
+        ArrayList<Item> items = getAllItems();
+
+        List<Item> weapons = items.stream()
+                .filter(n -> n.getType().equals("Weapon"))
+                .toList();
+
+        if (weapons.isEmpty()) {
+            System.out.println("No weapons found.");
+            return null;
+        }
+
+        // Seleccionar un arma aleatoria
+        Item randomItem = weapons.get((int) (Math.random() * weapons.size()));
+        return randomItem;
+    }
+
+    public Item getRandomArmor() {
+        ArrayList<Item> items = getAllItems();
+
+        List<Item> armor = items.stream()
+                .filter(n -> n.getType().equals("Armor"))
+                .toList();
+
+        if (armor.isEmpty()) {
+            System.out.println("No armors found.");
+            return null;
+        }
+
+        // Seleccionar un arma aleatoria
+        Item randomItem = armor.get((int) (Math.random() * armor.size()));
+        return randomItem;
+    }
+
 
 }

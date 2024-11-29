@@ -38,7 +38,9 @@ public class Controller {
             case OptionManageTeam.CREATE_TEAM -> createTeam();
             case OptionManageTeam.LIST_TEAMS -> listTeams();
             case OptionManageTeam.DELETE_TEAM -> deleteTeam();
-            case OptionManageTeam.BACK -> simulateCombat();
+            case OptionManageTeam.BACK -> {
+                break;
+            }
             case OptionManageTeam.ELSE -> System.out.println("Option not valid!");
         }
     }
@@ -170,6 +172,28 @@ public class Controller {
     public void initializeBattle (ArrayList<Team> teams) {
         Output.printPhrase("Initializing teams...");
 
+        for (Team team : teams) {
+            for (int j = 0; j < 4; j++) {
+                Item randomWeapon = itemManager.getRandomWeapon();
+                Item randomArmor = itemManager.getRandomArmor();
+
+                if (randomArmor == null) {
+                    j--;
+                }
+                if (randomWeapon == null) {
+                    j--;
+                }
+
+                team.getMembers().get(j).setArmor(randomArmor);
+                team.getMembers().get(j).setWeapon(randomWeapon);
+
+                String memberID = String.valueOf(team.getMembers().get(j).getId()) ;
+                team.getMembers().get(j).setName(characterManager.getCharacterByIdOrName(memberID).getName());
+
+            }
+        }
+
+        output.showTeamsForBattle(teams);
     }
 
     private ArrayList<Team> selectTeamsForBattle() {
@@ -181,8 +205,13 @@ public class Controller {
 
         for (int i = 1; i <= 2; i++) {
             int teamIndex = input.askInteger("Choose team #" + i + ": ");
-            Team team = teamManager.getTeamByIndex(teamIndex);
-            teams.add(team);
+            try {
+                Team team = teamManager.getTeamByIndex(teamIndex);
+                teams.add(team);
+            } catch (Exception e) {
+                Output.printPhrase("Team doesn't exist");
+                i--;
+            }
         }
 
         return teams;

@@ -4,6 +4,8 @@ public class Member {
     private Long id;
     private String strategy;
     private String name;
+    private Item armor;
+    private Item weapon;
 
     public Member(Long id, String strategy) {
         this.id = id;
@@ -27,6 +29,29 @@ public class Member {
     }
 
     public String toString() {
-        return id + " " + strategy;
+        String memberString;
+
+        memberString = "Member id: " + id;
+        memberString += "\n\tMember strategy: " + strategy;
+        memberString += "\n\tMember Armor: " + armor.toString();
+        memberString += "\n\tMember Weapon: " + weapon.toString();
+
+        return memberString;
+    }
+
+    public void setArmor(Item armor) {
+        this.armor = armor;
+    }
+
+    public void setWeapon(Item weapon) {
+        this.weapon = weapon;
+    }
+
+    public Item getArmor() {
+        return armor;
+    }
+
+    public Item getWeapon() {
+        return weapon;
     }
 }
