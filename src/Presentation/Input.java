@@ -2,6 +2,8 @@ package Presentation;
 
 import java.util.Scanner;
 
+import static Presentation.Controller.*;
+
 public class Input {
     static private Scanner sc;
 
@@ -16,7 +18,7 @@ public class Input {
             integer = Integer.parseInt(sc.nextLine());
         }
         catch (Exception e) {
-            Output.printPhrase("\tInvalid option!!\n");
+            Output.printPhrase(INVALID_OPTION_MESSAGE);
             return askInteger(prompt);
         }
         return integer;
@@ -33,5 +35,17 @@ public class Input {
         Scanner scanner = new Scanner(System.in);
         Output.printPhrase("\n<Press any key to continue...>");
         scanner.nextLine(); // Espera a que el usuario presione Enter
+    }
+
+    public String askStrategy(int index){
+        Output.printPhrase("Game strategy for character #" + index+ "?");
+        Output.printPhrase(STRATEGY_BALANCED_MESSAGE);
+        int option = askInteger(CHOOSE_OPTION_MESSAGE);
+        if (option == 1) {
+            return "balanced";
+        } else {
+            Output.printPhrase(INVALID_OPTION_MESSAGE);
+            return askStrategy(index);
+        }
     }
 }

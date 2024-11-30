@@ -12,6 +12,15 @@ public class Controller {
     private final TeamManager teamManager;
     private final StatsManager statsManager;
     private final ItemManager itemManager;
+    private final MemberManager memberManager;
+
+    static final String INVALID_OPTION_MESSAGE = "Option not valid!";
+    static final String CHOOSE_OPTION_MESSAGE = "\nChoose and option: ";
+    static final String TEAM_NO_EXIST_MESSAGE = "Team doesn't exist";
+    static final String INITIALIZING_TEAMS_MESSAGE = "Initializing teams...";
+    static final String STARTING_SIMULATION_MESSAGE = "\nStarting simulation...";
+    static final String STRATEGY_BALANCED_MESSAGE = "\t1) Balanced";
+    static final String LOOKING_AVAILABLE_TEAMS = "Looking for available teams...";
 
     public Controller() {
         input = new Input();
@@ -20,6 +29,7 @@ public class Controller {
         teamManager = new TeamManager();
         statsManager = new StatsManager();
         itemManager = new ItemManager();
+        memberManager = new MemberManager();
     }
 
     public void executeMainOption(OptionStartingMenu option) throws IOException {
@@ -28,8 +38,8 @@ public class Controller {
             case OptionStartingMenu.MANAGE_TEAMS -> manageTeams();
             case OptionStartingMenu.LIST_ITEMS -> listItems();
             case OptionStartingMenu.SIMULATE_COMBAT -> simulateCombat();
-            case OptionStartingMenu.EXIT -> System.out.println("We hope to see you again!");
-            case OptionStartingMenu.ELSE -> System.out.println("Option not valid!");
+            case OptionStartingMenu.EXIT -> Output.printPhrase("We hope to see you again!");
+            case OptionStartingMenu.ELSE -> Output.printPhrase("Option not valid!");
         }
     }
 
@@ -41,48 +51,17 @@ public class Controller {
             case OptionManageTeam.BACK -> {
                 break;
             }
-            case OptionManageTeam.ELSE -> System.out.println("Option not valid!");
+            case OptionManageTeam.ELSE -> System.out.println(INVALID_OPTION_MESSAGE);
         }
     }
 
-    private String askStrategy(int index){
-        Output.printPhrase("Game strategy for character #" + index+ "?");
-        Output.printPhrase("\t1) Balanced");
-        int option = input.askInteger("\nChoose and option: ");
-        if (option == 1) {
-            return "balanced";
-        } else {
-            Output.printPhrase("\tOption not valid!");
-            return askStrategy(index);
-        }
-    }
-
-    private ArrayList<Member> getMembers() {
-        ArrayList<Member> members = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            String member = input.askString("\nPlease enter name or id for character #" + i + ": ");
-            Character character = characterManager.getCharacterByIdOrName(member);
-            if (character == null) {
-                Output.printPhrase("\nCharacter #" + i + " does not exist");
-                i--;
-            } else {
-                String strategy = askStrategy(i);
-                Member member1 = new Member(character.getId(), strategy);
-                member1.setName(character.getName());
-                members.add(member1);
-            }
-        }
-        return members;
-    }
-
-    // TODO, solucionar guardado de las Stats iniciales, guarda en el json el nombre de los equipos mal
     private void createTeam() throws IOException {
         String teamName = input.askString("\nPlease enter the team's name: ");
         Team t = teamManager.getTeamByName(teamName);
         ArrayList<Member> members;
 
         if (t == null) {
-            members = getMembers();
+            members = memberManager.getMembers();
             Team team = new Team(teamName, members);
             teamManager.addTeam(team);
             statsManager.inicialiceStats(teamName);
@@ -96,7 +75,7 @@ public class Controller {
 
         do {
             output.listMenu(teamManager.listTeams());
-            option = input.askInteger("\nChoose an option: ");
+            option = input.askInteger(CHOOSE_OPTION_MESSAGE);
 
             if (option != 0) {
                 try {
@@ -104,7 +83,7 @@ public class Controller {
                     output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
                     input.pressAnyKeyToContinue();
                 } catch (Exception e) {
-                    Output.printPhrase("Team doesn't exist");
+                    Output.printPhrase(TEAM_NO_EXIST_MESSAGE);
                     input.pressAnyKeyToContinue();
                 }
             }
@@ -127,7 +106,7 @@ public class Controller {
 
         do {
             output.listMenu(characterManager.listCharacters());
-            option = input.askInteger("\nChoose an option: ");
+            option = input.askInteger(CHOOSE_OPTION_MESSAGE);
 
             if (option != 0) {
                 try {
@@ -154,7 +133,7 @@ public class Controller {
         int option;
         do {
             output.listMenu(itemManager.listItems());
-            option = input.askInteger("\nChoose an option: ");
+            option = input.askInteger(CHOOSE_OPTION_MESSAGE);
 
             if (option != 0) {
                 try {
@@ -176,7 +155,7 @@ public class Controller {
     }
 
     private void initializeBattle (ArrayList<Team> teams) {
-        Output.printPhrase("Initializing teams...");
+        Output.printPhrase(INITIALIZING_TEAMS_MESSAGE);
 
         for (Team team : teams) {
             for (int j = 0; j < 4; j++) {
@@ -206,7 +185,7 @@ public class Controller {
 
     private ArrayList<Team> selectTeamsForBattle() {
         ArrayList<Team> teams = new ArrayList<>();
-        Output.printPhrase("Looking for available teams...");
+        Output.printPhrase(LOOKING_AVAILABLE_TEAMS);
 
         ArrayList<String> teamsName = teamManager.listTeams();
         output.listTeamsNames(teamsName);
@@ -217,7 +196,7 @@ public class Controller {
                 Team team = teamManager.getTeamByIndex(teamIndex);
                 teams.add(team);
             } catch (Exception e) {
-                Output.printPhrase("Team doesn't exist");
+                Output.printPhrase(TEAM_NO_EXIST_MESSAGE);
                 i--;
             }
         }
@@ -226,7 +205,7 @@ public class Controller {
     }
 
     private void simulateCombat() {
-        Output.printPhrase("\nStarting simulation...");
+        Output.printPhrase(STARTING_SIMULATION_MESSAGE);
         ArrayList<Team> teams = selectTeamsForBattle();
         initializeBattle(teams);
     }
@@ -235,7 +214,7 @@ public class Controller {
         int option;
         do {
             output.mainMenu();
-            option = input.askInteger("\nChoose an option: ");
+            option = input.askInteger(CHOOSE_OPTION_MESSAGE);
             executeMainOption(OptionStartingMenu.convertIntToEnum(option));
         } while (option != 5);
     }
