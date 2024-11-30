@@ -34,4 +34,14 @@ public class Item {
     public String getType() {
         return type;
     }
+    public int getPower() {
+        return power;
+    }
+    public int getDurability() {
+        return durability;
+    }
+
+    public void useItem() {
+        durability--;
+    }
 }

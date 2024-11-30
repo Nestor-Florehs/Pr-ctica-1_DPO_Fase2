@@ -179,7 +179,8 @@ public class Controller {
             }
         }
 
-        output.showTeamsForBattle(teams);
+        Battle battle = new Battle(teams);
+        System.out.println(battle);
         executeBattle();
     }
 

@@ -6,11 +6,16 @@ public class Member {
     private String name;
     private Item armor;
     private Item weapon;
-    private int damageReceived;
+    private double damageReceived;
+    private Character character;
 
     public Member(Long id, String strategy) {
+        CharacterManager characterManager = new CharacterManager();
+        String memberId = String.valueOf(id);
+
         this.id = id;
         this.strategy = strategy;
+        character = characterManager.getCharacterByIdOrName(memberId);
     }
 
     public long getId() {
@@ -58,5 +63,35 @@ public class Member {
 
     public void setDamageReceived(int damageReceived) {
         this.damageReceived = damageReceived;
+    }
+
+    public double getAttackDamage () {
+        double attackDamage;
+
+        attackDamage = (double) (character.getWeight() * (1 - damageReceived)) / 10;
+        attackDamage += (double) weapon.getPower() / 20;
+        attackDamage += 18;
+        weapon.useItem();
+
+        if (weapon.getDurability() <= 0) {
+            weapon = null;
+            System.out.println("La arma se ha roto");
+        }
+
+        return attackDamage;
+    }
+
+    public void receiveDamage(double damageReceived) {
+        double finalDamage;
+
+        finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
+        armor.useItem();
+
+        if (armor.getDurability() <= 0) {
+            armor = null;
+            System.out.println("La arma se ha roto");
+        }
+
+        this.damageReceived += finalDamage;
     }
 }

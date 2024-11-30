@@ -160,19 +160,4 @@ public class Output {
         System.out.println();
     }
 
-    public void showTeamsForBattle (ArrayList<Team> teams){
-
-        System.out.println();
-        for (int i = 1; i <= teams.size(); i++) {
-            System.out.println("\tTeam #" + i + ": " + teams.get(i-1).getName());
-            ArrayList<Member> members = teams.get(i-1).getMembers();
-
-            for (Member member : members) {
-                System.out.println("\t- " + member.getName());
-                System.out.println("\t\tWeapon: " + member.getWeapon().getName());
-                System.out.println("\t\tArmor: " + member.getArmor().getName());
-            }
-            System.out.println();
-        }
-    }
 }
