@@ -148,10 +148,11 @@ public class Controller {
 
     }
 
-    private void executeBattle() {
-        System.out.print("Combat ready!");
+    private void executeBattle(Battle battle) {
+        Output.printPhrase("Combat ready!");
         input.pressAnyKeyToContinue();
-
+        BattleManager battleManager = new BattleManager(battle);
+        battleManager.executeBattle();
     }
 
     private void initializeBattle (ArrayList<Team> teams) {
@@ -181,7 +182,7 @@ public class Controller {
 
         Battle battle = new Battle(teams);
         System.out.println(battle);
-        executeBattle();
+        executeBattle(battle);
     }
 
     private ArrayList<Team> selectTeamsForBattle() {

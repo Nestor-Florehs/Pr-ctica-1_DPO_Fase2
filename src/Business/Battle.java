@@ -9,6 +9,7 @@ public class Battle {
         this.teams = teams;
     }
 
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -30,4 +31,14 @@ public class Battle {
         return str.toString();
     }
 
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
+
+    public void attack(Member attacker, Member defender) {
+        double attackDamage = attacker.getAttackDamage();
+        System.out.println(attacker.getName() + " ATTACKS " + defender.getName() + " WITH " + attacker.getWeapon().getName() + " FOR " + attackDamage);
+        double damageReceive = defender.receiveDamage(attackDamage);
+        System.out.println("\t" + defender.getName() + " RECEIVES " + damageReceive + " DAMAGE.");
+    }
 }

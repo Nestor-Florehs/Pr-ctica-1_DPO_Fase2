@@ -75,13 +75,12 @@ public class Member {
 
         if (weapon.getDurability() <= 0) {
             weapon = null;
-            System.out.println("La arma se ha roto");
         }
 
         return attackDamage;
     }
 
-    public void receiveDamage(double damageReceived) {
+    public double receiveDamage(double damageReceived) {
         double finalDamage;
 
         finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
@@ -89,9 +88,19 @@ public class Member {
 
         if (armor.getDurability() <= 0) {
             armor = null;
-            System.out.println("La arma se ha roto");
         }
 
         this.damageReceived += finalDamage;
+
+        return finalDamage;
     }
+
+    public String getPercentageOfDamage() {
+        return " (" + damageReceived + "%" + ") ";
+    }
+
+    public double getDamageReceived() {
+        return damageReceived;
+    }
+
 }
