@@ -37,7 +37,11 @@ public class Battle {
 
     public void attack(Member attacker, Member defender) {
         double attackDamage = attacker.getAttackDamage();
-        System.out.println(attacker.getName() + " ATTACKS " + defender.getName() + " WITH " + attacker.getWeapon().getName() + " FOR " + attackDamage);
+        if (attacker.getWeapon() == null) {
+            System.out.println(attacker.getName() + " ATTACKS " + defender.getName() + " WITHOUT WEAPON " + " FOR " + attackDamage);
+        } else {
+            System.out.println(attacker.getName() + " ATTACKS " + defender.getName() + " WITH " + attacker.getWeapon().getName() + " FOR " + attackDamage);
+        }
         double damageReceive = defender.receiveDamage(attackDamage);
         System.out.println("\t" + defender.getName() + " RECEIVES " + damageReceive + " DAMAGE.");
     }

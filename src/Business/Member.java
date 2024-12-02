@@ -69,12 +69,13 @@ public class Member {
         double attackDamage;
 
         attackDamage = (double) (character.getWeight() * (1 - damageReceived)) / 10;
-        attackDamage += (double) weapon.getPower() / 20;
-        attackDamage += 18;
-        weapon.useItem();
 
         if (weapon.getDurability() <= 0) {
             weapon = null;
+        } else {
+            weapon.useItem();
+            attackDamage += (double) weapon.getPower() / 20;
+            attackDamage += 18;
         }
 
         return attackDamage;
@@ -83,11 +84,11 @@ public class Member {
     public double receiveDamage(double damageReceived) {
         double finalDamage;
 
-        finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
-        armor.useItem();
-
-        if (armor.getDurability() <= 0) {
-            armor = null;
+        if (armor == null) {
+            finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) 0 / 20)) * 1.4 ) / 100;
+        } else {
+            finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
+            armor.useItem();
         }
 
         this.damageReceived += finalDamage;
@@ -96,7 +97,7 @@ public class Member {
     }
 
     public String getPercentageOfDamage() {
-        return " (" + damageReceived + "%" + ") ";
+        return " (" + (damageReceived * 100) + "%" + ") ";
     }
 
     public double getDamageReceived() {

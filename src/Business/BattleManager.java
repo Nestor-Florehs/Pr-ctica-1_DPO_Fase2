@@ -53,6 +53,7 @@ public class BattleManager {
 
                 if (strategy.equals("balanced")) {
                     if (member.getWeapon() == null) {
+                        System.out.println(member + "Coge una arma");
                         member.setWeapon(new ItemManager().getRandomWeapon());
                     } else {
                         if (member.getArmor() != null) {
@@ -69,6 +70,25 @@ public class BattleManager {
                     }
                 }
             }
+            System.out.println();
+        }
+    }
+
+    public void showBreaksItems() {
+        System.out.println();
+        for (Team team : battle.getTeams()) {
+            ArrayList<Member> members = team.getMembers();
+            for (Member member : members) {
+                if (member.getWeapon().getDurability() <= 0) {
+                    System.out.println("Oh no!" +  member.getName() + "’s " + member.getWeapon().getName() + " breaks!");
+                    member.setWeapon(null);
+                }
+                if (member.getArmor().getDurability() <= 0) {
+                    System.out.println("Oh no!" +  member.getName() + "’s " + member.getArmor().getName() + " breaks!");
+                    member.setArmor(null);
+                }
+            }
+            System.out.println();
         }
     }
 
@@ -79,6 +99,7 @@ public class BattleManager {
         do {
             showStateOfBattlePerTurn(turn);
             executeTurn();
+            showBreaksItems();
 
             if (turn == 2) {
                 combatEnd = true;
