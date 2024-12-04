@@ -20,7 +20,15 @@ public class BattleManager {
             Output.printPhrase("\nTeam #" + teamIndex + " - " + team.getName());
             ArrayList<Member> members = team.getMembers();
             for (Member member : members) {
-                Output.printPhrase("\t- " + member.getName() + member.getPercentageOfDamage() + member.getWeapon().getName() + " - " + member.getArmor().getName());
+                if (member.getWeapon() == null && member.getArmor() == null) {
+                    Output.printPhrase("\t- " + member.getName() + member.getPercentageOfDamage() + " No Weapon" + " - " + "No Armor");
+                } else if (member.getWeapon() == null && member.getArmor() != null) {
+                    Output.printPhrase("\t- " + member.getName() + member.getPercentageOfDamage() + " No Weapon" + " - " + member.getArmor().getName());
+                } else if (member.getWeapon() != null && member.getArmor() == null) {
+                    Output.printPhrase("\t- " + member.getName() + member.getPercentageOfDamage() + member.getWeapon().getName() + " - " + "No Armor");
+                } else {
+                    Output.printPhrase("\t- " + member.getName() + member.getPercentageOfDamage() + member.getWeapon().getName() + " - " + member.getArmor().getName());
+                }
             }
             teamIndex++;
         }
@@ -53,7 +61,7 @@ public class BattleManager {
 
                 if (strategy.equals("balanced")) {
                     if (member.getWeapon() == null) {
-                        System.out.println(member + "Coge una arma");
+                        System.out.println(member.getName() + " coge una arma");
                         member.setWeapon(new ItemManager().getRandomWeapon());
                     } else {
                         if (member.getArmor() != null) {
@@ -79,13 +87,17 @@ public class BattleManager {
         for (Team team : battle.getTeams()) {
             ArrayList<Member> members = team.getMembers();
             for (Member member : members) {
-                if (member.getWeapon().getDurability() <= 0) {
-                    System.out.println("Oh no!" +  member.getName() + "’s " + member.getWeapon().getName() + " breaks!");
-                    member.setWeapon(null);
+                if (member.getWeapon() != null) {
+                    if (member.getWeapon().getDurability() <= 0) {
+                        System.out.println("Oh no!" +  member.getName() + "’s " + member.getWeapon().getName() + " breaks!");
+                        member.setWeapon(null);
+                    }
                 }
-                if (member.getArmor().getDurability() <= 0) {
-                    System.out.println("Oh no!" +  member.getName() + "’s " + member.getArmor().getName() + " breaks!");
-                    member.setArmor(null);
+                if (member.getArmor() != null) {
+                    if (member.getArmor().getDurability() <= 0) {
+                        System.out.println("Oh no!" +  member.getName() + "’s " + member.getArmor().getName() + " breaks!");
+                        member.setArmor(null);
+                    }
                 }
             }
             System.out.println();

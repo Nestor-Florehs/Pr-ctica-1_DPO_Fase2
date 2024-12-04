@@ -40,7 +40,9 @@ public class Member {
         memberString = "Member id: " + id;
         memberString += "\n\tMember strategy: " + strategy;
         memberString += "\n\tMember Armor: " + armor.toString();
-        memberString += "\n\tMember Weapon: " + weapon.toString();
+        if (weapon !=null) {
+            memberString += "\n\tMember Weapon: " + weapon.toString();
+        }
 
         return memberString;
     }
