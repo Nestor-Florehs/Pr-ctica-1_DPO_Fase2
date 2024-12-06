@@ -15,6 +15,7 @@ public class StatsDao {
         JSONParser parser = new JSONParser();
         ArrayList<Stats> stats = new ArrayList<>();
 
+
         try {
             // Verifica si el archivo existe antes de intentar leer
             File file = new File(FILE_PATH);
@@ -70,8 +71,19 @@ public class StatsDao {
         }
     }
 
+    public void updateStats(int index, Stats newStats) {
+        ArrayList<Stats> stats = getAllStats();
+        if (index >= 0 && index < stats.size()) {
+            stats.set(index, newStats); // Reemplaza la estadística en la posición index con la nueva
+            saveStats(stats);
+            System.out.println("Estadísticas actualizadas correctamente.");
+        } else {
+            System.err.println("Error: índice fuera de rango. No se pueden actualizar las estadísticas.");
+        }
+    }
+
     public Stats getStatsByIndex(int index) {
-        return getAllStats().get(index - 1);
+        return getAllStats().get(index);
     }
 
     public void addStats(Stats s, String teamName) {
@@ -85,4 +97,6 @@ public class StatsDao {
         stats.remove(index);
         saveStats(stats);
     }
+
+
 }

@@ -29,8 +29,29 @@ public class Stats {
         return KOReceived;
     }
 
+    public void addGamesWon() {
+        this.gamesWon++;
+    }
+
+    public void addGamesPlayed() {
+        this.gamesPlayed++;
+    }
+
+    public void addKOReceived() {
+        this.KOReceived++;
+    }
+
+    public void addKODone(int koDone) {
+        this.KODone += koDone;
+    }
+
     public String toString() {
-        return gamesPlayed + " " + gamesWon + " " + KODone + " " + KOReceived;
+        String str;
+        str = "\nGames Played: " + gamesPlayed + "\n";
+        str += "Games Won: " + gamesWon + "\n";
+        str += "KO Done: " + KODone + "\n";
+        str += "KO Received: " + KOReceived + "\n";
+        return str;
     }
 
 }

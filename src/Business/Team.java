@@ -6,10 +6,13 @@ public class Team {
     private String name;
     private ArrayList<Member> members;
     private boolean win;
+    private int koDone;
 
     public Team(String name, ArrayList<Member> members) {
         this.name = name;
         this.members = members;
+        this.win = false;
+        this.koDone = 0;
     }
 
     public String getName() {
@@ -38,5 +41,13 @@ public class Team {
 
     public boolean getWin() {
         return win;
+    }
+
+    public void addKoDone() {
+        koDone++;
+    }
+
+    public int getKoDone() {
+        return koDone;
     }
 }

@@ -183,6 +183,7 @@ public class Controller {
         Battle battle = new Battle(teams);
         System.out.println(battle);
         executeBattle(battle);
+        statsManager.updateStatsOfBattle(battle);
     }
 
     private ArrayList<Team> selectTeamsForBattle() {
@@ -210,6 +211,7 @@ public class Controller {
         Output.printPhrase(STARTING_SIMULATION_MESSAGE);
         ArrayList<Team> teams = selectTeamsForBattle();
         initializeBattle(teams);
+
         input.pressAnyKeyToContinue();
     }
 

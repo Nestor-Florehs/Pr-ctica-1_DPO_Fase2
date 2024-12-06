@@ -114,21 +114,31 @@ public class BattleManager {
     }
 
     public void calculateKOs() {
-        for (Team team : battle.getTeams()) {
-            ArrayList<Member> members = team.getMembers();
+        ArrayList<Team> teams = battle.getTeams();
+
+        for (int i = 0; i < teams.size(); i++) {
+            Team currentTeam = teams.get(i);
+            Team opponentTeam = teams.get((i + 1) % teams.size());
+
+            ArrayList<Member> members = currentTeam.getMembers();
+
             for (Member member : members) {
                 if (!member.getKO()) {
                     Random random = new Random();
                     int randomNum = random.nextInt(200) + 1;
                     double knockOut = (double) randomNum / 200;
+
                     if (knockOut < member.getDamageReceived()) {
                         member.setKO();
+                        opponentTeam.addKoDone();
+
                         Output.printPhrase(member.getName() + " flies away! It’s a KO!");
                     }
                 }
             }
         }
     }
+
 
     public boolean checkCombatFinal() {
         boolean combatFinished = false;
@@ -150,7 +160,7 @@ public class BattleManager {
     }
 
     public void executeBattle() {
-        boolean combatEnd = false;
+        boolean combatEnd;
         int turn = 1;
 
         do {

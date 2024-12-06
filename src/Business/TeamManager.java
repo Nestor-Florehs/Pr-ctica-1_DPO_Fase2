@@ -50,17 +50,15 @@ public class TeamManager {
         teamDao.addTeam(team);
     }
 
-    public int getIndexOfTeamByName(String name) throws IOException {
+    public int getIndexOfTeamByName(String name) {
         TeamDao teamDao = new TeamDao();
         ArrayList<String> teams = teamDao.getAllTeamNames();
-        int index = 0;
         for (int i = 0; i < teams.size(); i++) {
             if (teams.get(i).equals(name)) {
-                index = i;
-                break;
+                return i;
             }
         }
-
-        return index;
+        return -1;
     }
+
 }
