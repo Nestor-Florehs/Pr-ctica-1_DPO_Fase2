@@ -1,9 +1,10 @@
 package Business;
 
+import Presentation.Input;
 import Presentation.Output;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BattleManager {
 
@@ -13,8 +14,7 @@ public class BattleManager {
         this.battle = battle;
     }
 
-    private void showStateOfBattlePerTurn(int turn) {
-        Output.printPhrase("\n--- ROUND " + turn + "! ---");
+    private void showStateOfBattlePerTurn() {
         int teamIndex = 1;
         for (Team team : battle.getTeams()) {
             Output.printPhrase("\nTeam #" + teamIndex + " - " + team.getName());
@@ -35,50 +35,57 @@ public class BattleManager {
     }
 
     private Member getRandomMemberOfRivalTeam(Team currentTeam) {
-        // Obtener todos los equipos
         ArrayList<Team> teams = battle.getTeams();
 
-        // Crear una lista de rivales
         ArrayList<Member> rivalMembers = new ArrayList<>();
         for (Team team : teams) {
-            if (!team.equals(currentTeam)) { // Excluir al equipo actual
-                rivalMembers.addAll(team.getMembers()); // Añadir miembros del equipo rival
+            if (!team.equals(currentTeam)) {
+                rivalMembers.addAll(team.getMembers());
             }
         }
 
-        // Seleccionar un miembro aleatorio
         int randomIndex = (int) (Math.random() * rivalMembers.size());
-        return rivalMembers.get(randomIndex);
+
+        Member rival = rivalMembers.get(randomIndex);
+
+        if (rival.getKO()) {
+            return getRandomMemberOfRivalTeam(currentTeam);
+        } else {
+            return rival;
+        }
 
     }
 
     private void executeTurn() {
-        System.out.println();
+        Output.printPhrase("");
         for (Team team : battle.getTeams()) {
             ArrayList<Member> members = team.getMembers();
             for (Member member : members) {
-                String strategy = member.getStrategy();
+                if (!member.getKO()) {
+                    String strategy = member.getStrategy();
 
-                if (strategy.equals("balanced")) {
-                    if (member.getWeapon() == null) {
-                        System.out.println(member.getName() + " coge una arma");
-                        member.setWeapon(new ItemManager().getRandomWeapon());
-                    } else {
-                        if (member.getArmor() != null) {
-                            if (member.getDamageReceived() > 0.5 && member.getDamageReceived() < 1.0) {
-                                System.out.println(member.getName() + " defence");
+                    if (strategy.equals("balanced")) {
+                        if (member.getWeapon() == null) {
+                            Output.printPhrase(member.getName() + " coge una arma");
+                            member.setWeapon(new ItemManager().getRandomWeapon());
+                        } else {
+                            if (member.getArmor() != null) {
+                                if (member.getDamageReceived() > 0.5 && member.getDamageReceived() < 1.0) {
+                                    Output.printPhrase(member.getName() + " defence");
+                                    member.setDefending();
+                                } else {
+                                    Member defender = getRandomMemberOfRivalTeam(team);
+                                    battle.attack(member, defender);
+                                }
                             } else {
                                 Member defender = getRandomMemberOfRivalTeam(team);
                                 battle.attack(member, defender);
                             }
-                        } else {
-                            Member defender = getRandomMemberOfRivalTeam(team);
-                            battle.attack(member, defender);
                         }
                     }
                 }
             }
-            System.out.println();
+            Output.printPhrase("");
         }
     }
 
@@ -87,16 +94,18 @@ public class BattleManager {
         for (Team team : battle.getTeams()) {
             ArrayList<Member> members = team.getMembers();
             for (Member member : members) {
-                if (member.getWeapon() != null) {
-                    if (member.getWeapon().getDurability() <= 0) {
-                        System.out.println("Oh no!" +  member.getName() + "’s " + member.getWeapon().getName() + " breaks!");
-                        member.setWeapon(null);
+                if (!member.getKO()) {
+                    if (member.getWeapon() != null) {
+                        if (member.getWeapon().getDurability() <= 0) {
+                            System.out.println("Oh no!" +  member.getName() + "’s " + member.getWeapon().getName() + " breaks!");
+                            member.setWeapon(null);
+                        }
                     }
-                }
-                if (member.getArmor() != null) {
-                    if (member.getArmor().getDurability() <= 0) {
-                        System.out.println("Oh no!" +  member.getName() + "’s " + member.getArmor().getName() + " breaks!");
-                        member.setArmor(null);
+                    if (member.getArmor() != null) {
+                        if (member.getArmor().getDurability() <= 0) {
+                            System.out.println("Oh no!" +  member.getName() + "’s " + member.getArmor().getName() + " breaks!");
+                            member.setArmor(null);
+                        }
                     }
                 }
             }
@@ -104,20 +113,61 @@ public class BattleManager {
         }
     }
 
+    public void calculateKOs() {
+        for (Team team : battle.getTeams()) {
+            ArrayList<Member> members = team.getMembers();
+            for (Member member : members) {
+                if (!member.getKO()) {
+                    Random random = new Random();
+                    int randomNum = random.nextInt(200) + 1;
+                    double knockOut = (double) randomNum / 200;
+                    if (knockOut < member.getDamageReceived()) {
+                        member.setKO();
+                        Output.printPhrase(member.getName() + " flies away! It’s a KO!");
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean checkCombatFinal() {
+        boolean combatFinished = false;
+
+        for (Team team : battle.getTeams()) {
+            ArrayList<Member> members = team.getMembers();
+            int numOfKOs = 0;
+            for (Member member : members) {
+                if (member.getKO()) {
+                    numOfKOs++;
+                }
+            }
+            if (numOfKOs == 4) {
+                combatFinished = true;
+            }
+        }
+
+        return combatFinished;
+    }
+
     public void executeBattle() {
         boolean combatEnd = false;
         int turn = 1;
 
         do {
-            showStateOfBattlePerTurn(turn);
+            Output.printPhrase("\n--- ROUND " + turn + "! ---");
+            showStateOfBattlePerTurn();
             executeTurn();
             showBreaksItems();
+            calculateKOs();
 
-            if (turn == 2) {
-                combatEnd = true;
-            }
+            combatEnd = checkCombatFinal();
             turn++;
         } while (!combatEnd);
 
+        battle.setWinningTeam();
+        Team winnerTeam = battle.getWinningTeam();
+        Output.printPhrase("\n--- END OF COMBAT ---");
+        Output.printPhrase("\n" + winnerTeam.getName() + " wins!");
+        showStateOfBattlePerTurn();
     }
 }

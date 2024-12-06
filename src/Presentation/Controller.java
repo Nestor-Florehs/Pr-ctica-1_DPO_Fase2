@@ -210,6 +210,7 @@ public class Controller {
         Output.printPhrase(STARTING_SIMULATION_MESSAGE);
         ArrayList<Team> teams = selectTeamsForBattle();
         initializeBattle(teams);
+        input.pressAnyKeyToContinue();
     }
 
     public void run() throws IOException {

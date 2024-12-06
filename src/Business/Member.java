@@ -8,6 +8,8 @@ public class Member {
     private Item weapon;
     private double damageReceived;
     private Character character;
+    private boolean isKO;
+    private boolean isDefending;
 
     public Member(Long id, String strategy) {
         CharacterManager characterManager = new CharacterManager();
@@ -16,6 +18,8 @@ public class Member {
         this.id = id;
         this.strategy = strategy;
         character = characterManager.getCharacterByIdOrName(memberId);
+        isKO = false;
+        isDefending = false;
     }
 
     public long getId() {
@@ -45,6 +49,10 @@ public class Member {
         }
 
         return memberString;
+    }
+
+    public void setKO() {
+        isKO = true;
     }
 
     public void setArmor(Item armor) {
@@ -87,23 +95,38 @@ public class Member {
         double finalDamage;
 
         if (armor == null) {
-            finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) 0 / 20)) * 1.4 ) / 100;
+            finalDamage = (damageReceived - (((double) (200 * (1 - this.damageReceived)) / character.getWeight())) * 1.4 ) / 100;
         } else {
-            finalDamage = (damageReceived - (((double) (200 * (1 - damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
+            finalDamage = (damageReceived - (((double) (200 * (1 - this.damageReceived)) / character.getWeight()) + ((double) armor.getPower() / 20)) * 1.4 ) / 100;
             armor.useItem();
         }
 
-        this.damageReceived += finalDamage;
+        if (!isDefending) {
+            this.damageReceived += finalDamage;
+        } else {
+            finalDamage = finalDamage - ((double) character.getWeight()/400);
+            isDefending = false;
+        }
 
         return finalDamage;
     }
 
+    public void setDefending() {
+        isDefending = true;
+    }
     public String getPercentageOfDamage() {
-        return " (" + (damageReceived * 100) + "%" + ") ";
+        if (isKO) {
+            return " (KO) ";
+        } else {
+            return " (" + (damageReceived * 100) + "%" + ") ";
+        }
     }
 
     public double getDamageReceived() {
         return damageReceived;
     }
 
+    public boolean getKO() {
+        return isKO;
+    }
 }

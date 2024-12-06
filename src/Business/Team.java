@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Team {
     private String name;
     private ArrayList<Member> members;
+    private boolean win;
 
     public Team(String name, ArrayList<Member> members) {
         this.name = name;
@@ -29,5 +30,13 @@ public class Team {
 
     public String toString() {
         return name + " " + members;
+    }
+
+    public void setWin() {
+        win = true;
+    }
+
+    public boolean getWin() {
+        return win;
     }
 }
