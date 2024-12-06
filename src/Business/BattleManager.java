@@ -169,5 +169,6 @@ public class BattleManager {
         Output.printPhrase("\n--- END OF COMBAT ---");
         Output.printPhrase("\n" + winnerTeam.getName() + " wins!");
         showStateOfBattlePerTurn();
+
     }
 }

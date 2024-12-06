@@ -48,7 +48,7 @@ public class StatsDao {
         return stats;
     }
 
-    public void saveStats(ArrayList<Stats> stats, String teamName) {
+    public void saveStats(ArrayList<Stats> stats) {
         JSONArray statsArray = new JSONArray();
 
         for (Stats s : stats) {
@@ -77,6 +77,12 @@ public class StatsDao {
     public void addStats(Stats s, String teamName) {
        ArrayList<Stats> stats = getAllStats();
        stats.add(s);
-       saveStats(stats, teamName);
+       saveStats(stats);
+    }
+
+    public void deleteStatsByIndex(int index) {
+        ArrayList<Stats> stats = getAllStats();
+        stats.remove(index);
+        saveStats(stats);
     }
 }

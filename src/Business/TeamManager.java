@@ -1,5 +1,6 @@
 package Business;
 
+import Persistence.StatsDao;
 import Persistence.TeamDao;
 
 import java.io.IOException;
@@ -32,7 +33,10 @@ public class TeamManager {
     }
 
     public String deleteTeamByName(String name) throws IOException {
+        StatsDao statsDao = new StatsDao();
         TeamDao teamDao = new TeamDao();
+
+        statsDao.deleteStatsByIndex(getIndexOfTeamByName(name));
         return teamDao.deleteTeamByName(name);
     }
 
@@ -44,5 +48,19 @@ public class TeamManager {
     public void addTeam(Team team) throws IOException {
         TeamDao teamDao = new TeamDao();
         teamDao.addTeam(team);
+    }
+
+    public int getIndexOfTeamByName(String name) throws IOException {
+        TeamDao teamDao = new TeamDao();
+        ArrayList<String> teams = teamDao.getAllTeamNames();
+        int index = 0;
+        for (int i = 0; i < teams.size(); i++) {
+            if (teams.get(i).equals(name)) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
     }
 }
