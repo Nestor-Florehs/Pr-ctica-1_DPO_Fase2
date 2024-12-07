@@ -22,26 +22,15 @@ public class TeamDao {
         ArrayList<Team> teams = new ArrayList<>();
 
         try {
-            // Check if the file exists
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                System.err.println("The file does not exist, returning an empty list.");
-                return teams;
-            }
-
-            // Load the JSON file
             FileReader reader = new FileReader(FILE_PATH);
 
-            // Parse the JSON file as an array
             JSONArray array = (JSONArray) parser.parse(reader);
 
-            // Iterate through each JSON object in the array
             for (Object o : array) {
                 ArrayList<Member> membersList = new ArrayList<>();
                 JSONObject team = (JSONObject) o;
                 JSONArray members = (JSONArray) team.get("members");
 
-                // Extract fields
                 String name = (String) team.get("name");
                 for (Object o2 : members) {
                     JSONObject member = (JSONObject) o2;

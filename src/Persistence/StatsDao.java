@@ -17,28 +17,17 @@ public class StatsDao {
 
 
         try {
-            // Verifica si el archivo existe antes de intentar leer
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                System.err.println("El archivo no existe, devolviendo una lista vacía.");
-                return stats;
-            }
-
-            // Carga y analiza el archivo JSON
             FileReader reader = new FileReader(FILE_PATH);
             JSONArray array = (JSONArray) parser.parse(reader);
 
-            // Itera sobre cada objeto JSON en el array
             for (Object o : array) {
                 JSONObject stat = (JSONObject) o;
 
-                // Convierte los valores numéricos de Long a int
                 int gamesPlayed = ((Long) stat.get("games_played")).intValue();
                 int gamesWon = ((Long) stat.get("games_won")).intValue();
                 int koDone = ((Long) stat.get("KO_done")).intValue();
                 int koReceived = ((Long) stat.get("KO_received")).intValue();
 
-                // Crea un objeto Stats y lo añade a la lista
                 Stats s = new Stats(gamesPlayed, gamesWon, koDone, koReceived);
                 stats.add(s);
             }
@@ -76,9 +65,6 @@ public class StatsDao {
         if (index >= 0 && index < stats.size()) {
             stats.set(index, newStats); // Reemplaza la estadística en la posición index con la nueva
             saveStats(stats);
-            System.out.println("Estadísticas actualizadas correctamente.");
-        } else {
-            System.err.println("Error: índice fuera de rango. No se pueden actualizar las estadísticas.");
         }
     }
 
@@ -96,22 +82,6 @@ public class StatsDao {
         ArrayList<Stats> stats = getAllStats();
         stats.remove(index);
         saveStats(stats);
-    }
-
-    public boolean validateJson() {
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            System.err.println("Error: stats.json no existe.");
-            return false;
-        }
-        try (FileReader reader = new FileReader(file)) {
-            JSONParser parser = new JSONParser();
-            parser.parse(reader);
-        } catch (Exception e) {
-            System.err.println("Error: stats.json tiene un formato inválido.");
-            return false;
-        }
-        return true;
     }
 
 
