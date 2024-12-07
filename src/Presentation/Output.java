@@ -85,15 +85,6 @@ public class Output {
     }
 
 
-    /*
-    public void listTeamMemberStrategies(int memberNumber, Strategies strategy){
-        int i;
-        System.out.println("Game strategy for character #" + memberNumber + "?");
-        for(i = 1; i < 2; i++) {
-            System.out.println(i + ") " + strategy.getName());
-        }
-    }
-     */
 
     public void teamCreated(boolean created, String teamName){
         if(created){
@@ -102,20 +93,6 @@ public class Output {
             System.out.println("Team has not been created!\n");
         }
     }
-
-    /*
-    public void listAvailableTeams(ArrayList<Team> teams){
-        int i = 0;
-        System.out.println();
-        for (Team team : teams) {
-            i++;
-            System.out.println("\t" + i + ")" + team);
-        }
-        System.out.println();
-
-        System.out.println("\t0) Back");
-    }
-     */
 
     public void enterTeamNameToRemove(){
         System.out.println("Enter the name of the team to remove: ");
@@ -131,25 +108,6 @@ public class Output {
         }
     }
 
-    /*
-    public void listItemsMenu(ArrayList<Item> items){
-        int i = 0;
-        System.out.println();
-        for (Item item : items) {
-            i++;
-            System.out.println("\t" + i + ")" + item);
-        }
-        System.out.println();
-
-        System.out.println("\t0) Back");
-    }
-
-    public void listItemsAttributes(Item item){
-        System.out.println(item.toString());
-        System.out.println("<Press any key to continue...>");
-    }
-    */
-
     public void listTeamsNames(ArrayList<String> teamsNames){
         int i = 0;
         System.out.println();
@@ -158,6 +116,14 @@ public class Output {
             System.out.println("\t" + i + ")" + teamName);
         }
         System.out.println();
+    }
+
+    public void printLogo(){
+        System.out.println("   ___                       _     ___    ___         _");
+        System.out.println("  / __|_   _ _ __  ___ _ _  | |  /  __|  | _ )_ _ ___| |");
+        System.out.println("  \\__ \\ | | | '- \\/ -_) '_| | |__\\__ \\_  | _ \\ '_/ _ \\_|");
+        System.out.println("  |___/ \\_,_| .__/\\___|_|   |____|___( ) |___/_| \\___(_)");
+        System.out.println("            |_|                      |/");
     }
 
 }

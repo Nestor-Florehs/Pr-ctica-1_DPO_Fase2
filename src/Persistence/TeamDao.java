@@ -159,4 +159,20 @@ public class TeamDao {
         saveTeams(teams);
     }
 
+    public boolean validateJson() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            System.err.println("Error: teams.json no existe.");
+            return false;
+        }
+        try (FileReader reader = new FileReader(file)) {
+            JSONParser parser = new JSONParser();
+            parser.parse(reader);
+        } catch (Exception e) {
+            System.err.println("Error: teams.json tiene un formato inválido.");
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -21,6 +21,7 @@ public class Controller {
     static final String STARTING_SIMULATION_MESSAGE = "\nStarting simulation...";
     static final String STRATEGY_BALANCED_MESSAGE = "\t1) Balanced";
     static final String LOOKING_AVAILABLE_TEAMS = "Looking for available teams...";
+    static final String WELCOME_MESSAGE = "\nWelcome to Super LS, Bro! Simulator.";
 
     public Controller() {
         input = new Input();
@@ -43,7 +44,7 @@ public class Controller {
         }
     }
 
-    public void executeManageTeams(OptionManageTeam option) throws IOException {
+    private void executeManageTeams(OptionManageTeam option) throws IOException {
         switch (option) {
             case OptionManageTeam.CREATE_TEAM -> createTeam();
             case OptionManageTeam.LIST_TEAMS -> listTeams();
@@ -80,7 +81,7 @@ public class Controller {
             if (option != 0) {
                 try {
                     Team team = teamManager.getTeamByIndex(option);
-                    output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option));
+                    output.listTeamAttributes(team, characterManager.getCharactersOfTeam(team), statsManager.getStatsByIndex(option - 1));
                     input.pressAnyKeyToContinue();
                 } catch (Exception e) {
                     Output.printPhrase(TEAM_NO_EXIST_MESSAGE);
@@ -215,7 +216,21 @@ public class Controller {
         input.pressAnyKeyToContinue();
     }
 
+
+
+    private void initializeGame() {
+        output.printLogo();
+        Output.printPhrase(WELCOME_MESSAGE);
+        JsonValidation jsonValidation = new JsonValidation();
+
+        Output.printPhrase("\nVerifying local files...");
+        jsonValidation.checkJsonValidity();
+        Output.printPhrase("Starting program...\n");
+
+    }
+
     public void run() throws IOException {
+        initializeGame();
         int option;
         do {
             output.mainMenu();

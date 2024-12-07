@@ -29,7 +29,6 @@ public class StatsManager {
             System.out.println("\n" + team.getName());
             Stats stats = statsDao.getStatsByIndex(teamManager.getIndexOfTeamByName(team.getName()));
 
-            System.out.println("Estadística de entrada: " + stats);
 
             stats.addGamesPlayed();
 
@@ -50,9 +49,7 @@ public class StatsManager {
 
             stats.addKODone(teamKODone);
 
-            // Guardar las estadísticas actualizadas en la base de datos
             statsDao.updateStats(teamManager.getIndexOfTeamByName(team.getName()), stats);
-            System.out.println("Estadística de salida: " + stats);
         }
     }
 

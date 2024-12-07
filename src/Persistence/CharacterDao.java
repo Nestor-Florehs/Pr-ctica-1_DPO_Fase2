@@ -22,24 +22,13 @@ public class CharacterDao {
         ArrayList<Character> characters = new ArrayList<>();
 
         try {
-            // Verifica si el archivo existe antes de intentar leer
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                System.err.println("El archivo no existe, devolviendo una lista vacía.");
-                return characters;
-            }
-
-            // Load the JSON file
             FileReader reader = new FileReader(FILE_PATH);
 
-            // Parse the JSON file as an array
             JSONArray array = (JSONArray) parser.parse(reader);
 
-            // Iterate through each JSON object in the array
             for (Object o : array) {
                 JSONObject character = (JSONObject) o;
 
-                // Extract fields
                 long id = (long) character.get("id");
                 String name = (String) character.get("name");
                 long weightLong = (long) character.get("weight");
@@ -129,4 +118,19 @@ public class CharacterDao {
         }
         return null;
     }
+
+    public boolean validateJson() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return false;
+        }
+        try (FileReader reader = new FileReader(file)) {
+            JSONParser parser = new JSONParser();
+            parser.parse(reader);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }
