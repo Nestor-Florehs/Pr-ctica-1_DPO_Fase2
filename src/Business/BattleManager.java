@@ -1,19 +1,32 @@
 package Business;
 
-import Presentation.Input;
 import Presentation.Output;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Manages the flow of a battle, including tracking the state of the battle,
+ * executing each turn, and managing the actions of the members of each team.
+ */
 public class BattleManager {
 
     private Battle battle;
 
+    /**
+     * Constructs a BattleManager with a specific battle instance.
+     *
+     * @param battle the battle to be managed by this manager.
+     */
     public BattleManager(Battle battle) {
         this.battle = battle;
     }
 
+    /**
+     * Displays the current state of the battle, including each team's name,
+     * the status of each member (with or without weapon/armor), and the percentage
+     * of damage they have received.
+     */
     private void showStateOfBattlePerTurn() {
         int teamIndex = 1;
         for (Team team : battle.getTeams()) {
@@ -34,6 +47,12 @@ public class BattleManager {
         }
     }
 
+    /**
+     * Retrieves a random member from a rival team that is not KO'd.
+     *
+     * @param currentTeam the current team whose rival member is to be selected.
+     * @return a random member from a rival team.
+     */
     private Member getRandomMemberOfRivalTeam(Team currentTeam) {
         ArrayList<Team> teams = battle.getTeams();
 
@@ -45,7 +64,6 @@ public class BattleManager {
         }
 
         int randomIndex = (int) (Math.random() * rivalMembers.size());
-
         Member rival = rivalMembers.get(randomIndex);
 
         if (rival.getKO()) {
@@ -53,9 +71,12 @@ public class BattleManager {
         } else {
             return rival;
         }
-
     }
 
+    /**
+     * Executes one turn of the battle, where each member of the team can either attack, defend,
+     * or equip items based on their strategy.
+     */
     private void executeTurn() {
         Output.printPhrase("");
         for (Team team : battle.getTeams()) {
@@ -113,6 +134,10 @@ public class BattleManager {
         }
     }
 
+    /**
+     * Simulates the calculation of KOs for each team, checking if a member's damage
+     * exceeds the threshold for a KO. If a KO occurs, the opposing team gains a KO count.
+     */
     public void calculateKOs() {
         ArrayList<Team> teams = battle.getTeams();
 
@@ -139,7 +164,12 @@ public class BattleManager {
         }
     }
 
-
+    /**
+     * Checks if the battle has finished by determining if any team has all its
+     * members KO'd. If all members of a team are KO'd, the combat is finished.
+     *
+     * @return true if the combat is finished, false otherwise.
+     */
     public boolean checkCombatFinal() {
         boolean combatFinished = false;
 
@@ -159,6 +189,10 @@ public class BattleManager {
         return combatFinished;
     }
 
+    /**
+     * Executes the battle, showing the battle state, executing turns, checking for
+     * equipment breaks, calculating KOs, and determining the winner at the end.
+     */
     public void executeBattle() {
         boolean combatEnd;
         int turn = 1;
@@ -179,6 +213,5 @@ public class BattleManager {
         Output.printPhrase("\n--- END OF COMBAT ---");
         Output.printPhrase("\n" + winnerTeam.getName() + " wins!");
         showStateOfBattlePerTurn();
-
     }
 }

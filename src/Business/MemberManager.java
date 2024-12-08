@@ -4,10 +4,19 @@ import Presentation.Input;
 import Presentation.Output;
 
 import java.util.ArrayList;
-import Business.CharacterManager;
 
+/**
+ * Manages the creation and retrieval of members for a team.
+ */
 public class MemberManager {
 
+    /**
+     * Retrieves a list of members by prompting the user for character names or IDs.
+     * The user is prompted to input the name or ID for each character, and the corresponding
+     * strategy for each member is chosen. If a character does not exist, the user is prompted again.
+     *
+     * @return a list of members created from the provided character data.
+     */
     public ArrayList<Member> getMembers() {
         ArrayList<Member> members = new ArrayList<>();
         CharacterManager characterManager = new CharacterManager();
@@ -28,5 +37,4 @@ public class MemberManager {
         }
         return members;
     }
-
 }
