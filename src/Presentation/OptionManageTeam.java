@@ -1,5 +1,8 @@
 package Presentation;
 
+/**
+ * Enum representing the options available in the team management menu.
+ */
 public enum OptionManageTeam {
     CREATE_TEAM,
     LIST_TEAMS,
@@ -11,7 +14,8 @@ public enum OptionManageTeam {
      * Converts an integer value to its corresponding Option enum value.
      *
      * @param value the integer value to convert to an Option.
-     * @return the corresponding Option enum value. If the value is not within the valid range, returns Option.ELSE.
+     * @return the corresponding Option enum value. If the value is not
+     * within the valid range, returns Option.ELSE.
      */
     public static OptionManageTeam convertIntToEnum(int value) {
 

@@ -2,11 +2,22 @@ package Presentation;
 
 import java.util.ArrayList;
 
-import Business.*;
 import Business.Character;
+import Business.Item;
+import Business.Member;
+import Business.Team;
+import Business.Stat;
 
+/**
+ * The Output class is responsible for displaying messages and various
+ * information to the user. It provides methods for printing menus,
+ * character attributes, team details, and other important messages.
+ */
 public class Output {
 
+    /**
+     * Displays the main menu with options for the user.
+     */
     public void mainMenu(){
         System.out.println("\n\t1) List Characters");
         System.out.println("\t2) Manage Teams");
@@ -15,10 +26,20 @@ public class Output {
         System.out.println("\n\t5) Exit");
     }
 
+    /**
+     * Prints a phrase to the console.
+     *
+     * @param phrase the phrase to be printed.
+     */
     public static void printPhrase(String phrase) {
         System.out.println(phrase);
     }
 
+    /**
+     * Displays a list of options for the user to choose from.
+     *
+     * @param strings a list of strings representing the options.
+     */
     public void listMenu(ArrayList<String> strings){
         int i = 0;
         System.out.println();
@@ -31,22 +52,36 @@ public class Output {
         System.out.println("\t0) Back");
     }
 
+    /**
+     * Displays the attributes of a character along with the teams it is part of.
+     *
+     * @param character the character whose attributes are to be displayed.
+     * @param teamsNames a list of team names the character is part of.
+     */
     public void listCharacterAttributes(Character character, ArrayList<String> teamsNames){
-        System.out.println(character.toString());
+        System.out.println(character);
         System.out.println("\tTEAMS:");
         if (teamsNames.size() > 0) {
             for (String name : teamsNames){
-                System.out.println("\t\t" + "-" + name);
+                System.out.println("\t\t\t" + "-" + name);
             }
         } else {
-            System.out.println("\t\t" + "-No teams");
+            System.out.println("\t\t\t" + "-No teams");
         }
     }
 
+    /**
+     * Displays the attributes of an item.
+     *
+     * @param item the item whose attributes are to be displayed.
+     */
     public void listItemAttributes(Item item){
         System.out.println(item);
     }
 
+    /**
+     * Displays the team management menu.
+     */
     public void manageTeamsMenu(){
         System.out.println("\nTeam management.");
         System.out.println("\t1) Create a Team");
@@ -55,16 +90,14 @@ public class Output {
         System.out.println("\n\t4) Back");
     }
 
-    public void enterTeamNameToCreate(){
-        System.out.println("Please enter the teams’s name: ");
-    }
-
-    public void enterTeamMemberName(int memberNumber){
-        System.out.println("Please enter name or id for character #" + memberNumber + ":");
-    }
-
-
-    public void listTeamAttributes (Team team, ArrayList<Member> members, Stats teamStats){
+    /**
+     * Displays the details of a team, including its members and stats.
+     *
+     * @param team the team whose details are to be displayed.
+     * @param members a list of members in the team.
+     * @param teamStats the stats of the team.
+     */
+    public void listTeamAttributes(Team team, ArrayList<Member> members, Stat teamStats){
         System.out.println("\nTeam Name: " + team.getName() + "\n");
         int i = 0;
 
@@ -73,41 +106,22 @@ public class Output {
             System.out.println("Character #" + i + ": " + member.getName() + "\t(" + member.getStrategy() + ")");
         }
 
-        System.out.println("\nCombats played:\t" + teamStats.getGamesPlayed());
-        System.out.println("Combats won:\t" + teamStats.getGamesWon());
+        System.out.println("\nCombats played:\t\t" + teamStats.getGamesPlayed());
+        System.out.println("Combats won:\t\t" + teamStats.getGamesWon());
         if (teamStats.getGamesPlayed() == 0) {
-            System.out.println("Win rate:\tN/A (no games played)");
+            System.out.println("Win rate:\t\t\tN/A (no games played)");
         } else {
-            System.out.println("Win rate:\t" + ((teamStats.getGamesWon() * 100) / teamStats.getGamesPlayed()) + "%");
+            System.out.println("Win rate:\t\t\t" + ((teamStats.getGamesWon() * 100) / teamStats.getGamesPlayed()) + "%");
         }
-        System.out.println("KOs done:\t" + teamStats.getKODone());
-        System.out.println("KOs received:\t" + teamStats.getKOReceived());
+        System.out.println("KOs done:\t\t\t" + teamStats.getKODone());
+        System.out.println("KOs received:\t\t" + teamStats.getKOReceived());
     }
 
-
-
-    public void teamCreated(boolean created, String teamName){
-        if(created){
-            System.out.println("Team " + teamName + "has been successfully created!\n");
-        }else{
-            System.out.println("Team has not been created!\n");
-        }
-    }
-
-    public void enterTeamNameToRemove(){
-        System.out.println("Enter the name of the team to remove: ");
-    }
-
-    public void removeTeam(String teamName){
-        System.out.println("Are you sure you want to remove \"" + teamName + "\" ? ");
-    }
-
-    public void teamRemoved(boolean removed, String teamName){
-        if(removed){
-            System.out.println("\"" + teamName + "\" has been removed from the system.");
-        }
-    }
-
+    /**
+     * Displays a list of team names for the user to choose from.
+     *
+     * @param teamsNames a list of team names.
+     */
     public void listTeamsNames(ArrayList<String> teamsNames){
         int i = 0;
         System.out.println();
@@ -118,6 +132,9 @@ public class Output {
         System.out.println();
     }
 
+    /**
+     * Prints the logo of the program.
+     */
     public void printLogo(){
         System.out.println("   ___                       _     ___    ___         _");
         System.out.println("  / __|_   _ _ __  ___ _ _  | |  /  __|  | _ )_ _ ___| |");
@@ -125,5 +142,4 @@ public class Output {
         System.out.println("  |___/ \\_,_| .__/\\___|_|   |____|___( ) |___/_| \\___(_)");
         System.out.println("            |_|                      |/");
     }
-
 }

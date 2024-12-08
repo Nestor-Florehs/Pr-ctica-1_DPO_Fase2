@@ -1,5 +1,8 @@
 package Presentation;
 
+/**
+ * Enum representing the options available in the starting menu of the program.
+con */
 public enum OptionStartingMenu {
     LIST_CHARACTERS,
     MANAGE_TEAMS,
@@ -12,7 +15,8 @@ public enum OptionStartingMenu {
      * Converts an integer value to its corresponding Option enum value.
      *
      * @param value the integer value to convert to an Option.
-     * @return the corresponding Option enum value. If the value is not within the valid range, returns Option.ELSE.
+     * @return the corresponding Option enum value. If the value is not
+     * within the valid range, returns Option.ELSE.
      */
     public static OptionStartingMenu convertIntToEnum(int value) {
 
